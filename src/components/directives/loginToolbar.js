@@ -11,36 +11,8 @@
       restrict: 'E',
       replace: true,
       scope: true,
-      controller: /* @ngInject */ function($scope, $rootScope, $location, Security, ConfigService) {
-        $scope.isEditor= Security.isEditor;
+      controller: /* @ngInject */ function($scope, $rootScope, $location, Security) {
         $scope.isAuthenticated = Security.isAuthenticated;
-        $scope.login = Security.showLogin;
-        $scope.logout = Security.logout;
-
-        $scope.adminUrl = ConfigService.serverUrl + 'admin';
-
-        // $scope.alert = alert('clicked');
-
-        $scope.$watch(function() {
-          return Security.currentUser;
-        }, function(currentUser) {
-          $scope.currentUser = currentUser;
-        });
-
-        $scope.status = {
-          isopen: false
-        };
-
-        $scope.toggleDropdown = function($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          $scope.status.isopen = !$scope.status.isopen;
-        };
-
-        if(!$scope.currentUrl) { $scope.currentUrl = $location.url(); }
-        $rootScope.$on('$stateChangeSuccess', function() {
-          $scope.currentUrl = $location.url();
-        });
       }
     };
     return directive;

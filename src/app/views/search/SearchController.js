@@ -4,7 +4,7 @@
     .controller('SearchController', SearchController);
 
   // @ngInject
-  function SearchController($scope, $state, $stateParams, $log, $location, _, Search) {
+  function SearchController($scope, $state, $stateParams, $log, $timeout, _, Search) {
     var vm = $scope.vm = {};
 
     // function assignment
@@ -13,9 +13,12 @@
     vm.searchResults = [];
     vm.showEvidenceGrid = false;
 
-    init();
+    $scope.$watch('vm.model.queries', function(queries) {
+      console.log('Model Queries Changed: ');
+      console.log(JSON.stringify(queries));
+    }, true);
 
-    vm.originalFields = angular.copy(vm.fields);
+    init();
 
     // function definition
     function onSubmit() {
@@ -34,37 +37,56 @@
 
     vm.buttonLabel = 'Search Evidence Items';
 
+    vm.model = {
+      operator: 'AND',
+      queries: [
+        {
+          field: '',
+          condition: {
+            name: undefined,
+            parameters: []
+          }
+        }
+      ]
+    };
+
     function init() {
+      vm.model = {
+        operator: 'AND',
+        queries: [
+          {
+            field: '',
+            condition: {
+              name: undefined,
+              parameters: []
+            }
+          }
+        ]
+      };
+
       if(_.has($stateParams, 'token') && !_.isEmpty($stateParams.token)){
+        console.log('Token found, fetching form state.');
         Search.get($stateParams.token)
           .then(function(response) {
-            vm.model.operator = response.params.operator;
-            vm.model.queries= response.params.queries;
-            vm.searchResults = response.results;
-            vm.showEvidenceGrid = true;
+            $timeout(function() {
+              console.log('Init Timeout fired, current model: ');
+              console.log(JSON.stringify(vm.model.queries));
+              vm.model.operator = response.params.operator;
+              vm.model.queries = response.params.queries;
+              vm.searchResults = response.results;
+              vm.showEvidenceGrid = true;
+
+              console.log('Updated model: ');
+              console.log(JSON.stringify(vm.model.queries));
+            });
           });
       } else {
-        vm.model = {
-          operator: 'AND',
-          queries: [
-            {
-              field: '',
-              condition: {
-                name: undefined,
-                parameters: []
-              }
-            }
-          ]
-        };
       }
-
-
 
       vm.operatorField = [
         {
           key: 'operator',
           type: 'select',
-          defaultValue: 'AND',
           templateOptions: {
             label: '',
             options: [
@@ -121,7 +143,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field inline-field-md',
-                  defaultValue: 'is',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -146,7 +167,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'is_greater_than_or_equal_to',
                   templateOptions: {
                     required: true,
                     label: '',
@@ -193,7 +213,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'contains',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -221,7 +240,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'contains',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -249,7 +267,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field inline-field-small',
-                  defaultValue: 'is',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -276,7 +293,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'contains',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -304,7 +320,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field inline-field-small',
-                  defaultValue: 'is',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -329,7 +344,7 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field inline-field-md',
-                  defaultValue: 'is_equal_to',
+//                  defaultValue: 'is_equal_to',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -343,7 +358,10 @@
                   key: 'parameters[0]',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'Predictive',
+                  //defaultValue: 'Predictive',
+                  controller: /* @ngInject */ function($scope) {
+                    console.log('evidence_type controller called.');
+                  },
                   templateOptions: {
                     label: '',
                     required: true,
@@ -351,6 +369,20 @@
                       { value: 'Predictive', name: 'Predictive' },
                       { value: 'Diagnostic', name: 'Diagnostic' },
                       { value: 'Prognostic', name: 'Prognostic' }
+                    ]
+                  },
+                  templateManipulators: {
+                    preWrapper: [
+                      function(template, options, scope) {
+                        // this is called for this field only before wrappers and before other manipulators
+                        return template;
+                      }
+                    ],
+                    postWrapper: [
+                      function(template, options, scope) {
+                        // this is called for this field only after wrappers and before other manipulators
+                        return template;
+                      }
                     ]
                   }
                 }
@@ -360,7 +392,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'is_above',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -375,7 +406,6 @@
                   key: 'parameters[0]',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'C',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -394,7 +424,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field inline-field-small',
-                  defaultValue: 'is',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -408,7 +437,6 @@
                   key: 'parameters[0]',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'submitted',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -429,7 +457,6 @@
                   key: 'parameters[0]', // status
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'new',
                   templateOptions: {
                     required: true,
                     label: '',
@@ -444,7 +471,7 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'is_greater_than_or_equal_to',
+
                   templateOptions: {
                     required: true,
                     label: '',
@@ -491,16 +518,15 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'is_equal_to',
                   templateOptions: {
                     required: true,
                     label: '',
                     options: [
+                      { value: 'is_equal_to', name: 'is equal to' },
                       { value: 'is_greater_than_or_equal_to', name: 'is greater than or equal to' },
                       { value: 'is_greater_than', name: 'is greater than' },
                       { value: 'is_less_than', name: 'is less than' },
                       { value: 'is_less_than_or_equal_to', name: 'is less than or equal to' },
-                      { value: 'is_equal_to', name: 'is equal to' },
                       { value: 'is_in_the_range', name: 'is in the range'}
                     ],
                     onChange: function(value, options, scope) {
@@ -538,7 +564,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'contains',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -565,7 +590,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'contains',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -592,7 +616,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'contains',
                   templateOptions: {
                     label: '',
                     required: true,
@@ -617,7 +640,6 @@
                   key: 'name',
                   type: 'select',
                   className: 'inline-field',
-                  defaultValue: 'is_equal_to',
                   templateOptions: {
                     label: '',
                     required: true,
