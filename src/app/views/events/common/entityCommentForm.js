@@ -104,7 +104,6 @@
               variant_group: 'VG',
               evidence_item: 'EI'
             };
-            console.log(entity);
             return '#' + types[entity.type] + entity.id;
           };
 
@@ -160,7 +159,7 @@
     return function (matchItem, query, hightlightClass) {
       if (query) {
         if(_.includes(query, ':')) {
-          query = query.split(':')[1];
+          if(_.includes(query, ':')) { query = query.split(':')[1].length > 0 ? _.drop(query.split(':'), 1)[0] : String(); }
         }
         var replaceText = hightlightClass ?
         '<span class="' + hightlightClass + '">$&</span>' :
