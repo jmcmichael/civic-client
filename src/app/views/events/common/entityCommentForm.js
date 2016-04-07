@@ -11,7 +11,8 @@
       restrict: 'E',
       scope: {
         type: '@',
-        entityModel: '='
+        entityModel: '=',
+        label: '='
       },
       controller: 'EntityCommentFormController',
       templateUrl: 'app/views/events/common/entityCommentForm.tpl.html'
@@ -31,6 +32,7 @@
     vm.isEditor = Security.isEditor();
 
     vm.mode = 'edit';
+    vm.label = $scope.label;
     vm.previewLoading = false;
     vm.previewText = '';
 
