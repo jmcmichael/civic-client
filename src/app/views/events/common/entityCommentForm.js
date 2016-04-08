@@ -12,6 +12,7 @@
       scope: {
         type: '@',
         entityModel: '=',
+        commentData: '=',
         label: '='
       },
       controller: 'EntityCommentFormController',
@@ -67,8 +68,10 @@
 
     vm.newComment = {
       title: '',
-      text: ''
+      text: _.isUndefined($scope.commentData) ? '' : $scope.commentData
     };
+
+    vm.formId = _.uniqueId('commentForm');
 
     vm.newCommentFields = [
       {
@@ -77,7 +80,7 @@
         ngModelElAttrs: {
           'msd-elastic': 'true',
           'mentio': '',
-          'mentio-id': '"commentForm"'
+          'mentio-id': vm.formId
         },
         controller: /* @ngInject */ function($scope, $filter) {
           $scope.searchUsers = function(term) {
@@ -113,7 +116,8 @@
         },
         data: {
           users: [],
-          entities: []
+          entities: [],
+          formId: vm.formId
         },
         templateOptions: {
           label: 'Add Comment:',

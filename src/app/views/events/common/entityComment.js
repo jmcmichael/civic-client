@@ -26,6 +26,7 @@
       currentUser: Security.currentUser
     };
 
+    ctrl.entityModel = $scope.entityModel;
     ctrl.comment = $scope.commentData;
 
     ctrl.deleteComment = function(comment) {
@@ -40,5 +41,8 @@
           console.log('comment delete done!');
         });
     };
+
+    ctrl.showEditForm = false;
+
   }
 })();

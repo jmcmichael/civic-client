@@ -55,6 +55,12 @@
               <div class="comment-actions pull-right">
                 <button
                   ng-show="ctrl.comment.user.id === ctrl.security.currentUser.id"
+                  ng-click="ctrl.showEditForm = !ctrl.showEditForm"
+                  class="btn btn-xs btn-default">
+                  Edit
+                </button>
+                <button
+                  ng-show="ctrl.comment.user.id === ctrl.security.currentUser.id"
                   ng-click="ctrl.deleteComment(ctrl.comment)"
                   class="btn btn-xs btn-default">
                   Delete
@@ -62,6 +68,20 @@
               </div>
 
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="edit-comment-block-bg">
+          <div class="edit-comment-block" ng-show="ctrl.showEditForm">
+            <entity-comment-form
+              type="comment"
+              comment-data="commentData.text"
+              label="'edit'"
+              entity-model="ctrl.entityModel"
+            ></entity-comment-form>
           </div>
         </div>
       </div>

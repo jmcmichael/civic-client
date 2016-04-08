@@ -1,9 +1,10 @@
 <div>
+  <h3>Form Id: {{ options.data.formId }}</h3>
   <formly-transclude></formly-transclude>
 
   <!-- menu directive for entity suggestions -->
   <mentio-menu
-    mentio-for="'commentForm'"
+    mentio-for="to.data.formId"
     mentio-trigger-char="'#'"
     mentio-items="entities"
     mentio-template-url="/entity-mentions.tpl"
@@ -29,7 +30,7 @@
 
   <!-- ment.io menu directive for user mentions -->
   <mentio-menu
-    mentio-for="'commentForm'"
+    mentio-for="to.data.formId"
     mentio-trigger-char="'@'"
     mentio-items="users"
     mentio-template-url="/user-mentions.tpl"
