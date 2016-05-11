@@ -18,7 +18,8 @@
       })
       .state('account.notifications', {
         url: '/notifications?category',
-        templateUrl: 'app/views/account/notifications.tpl.html',
+        controller: 'NotificationsController',
+        templateUrl: 'app/views/account/notifications/notifications.tpl.html',
         data: {
           titleExp: '"Account Notifications"',
           navMode: 'sub'
@@ -28,12 +29,12 @@
             //return CurrentUser.getFeed({page: $stateParams.page});
             return CurrentUser.getFeed({count: 25});
           }
-        },
-        controller: 'AccountNotificationsController'
+        }
       })
       .state('account.profile', {
-        url: '/profile',
-        templateUrl: 'app/views/account/profile.tpl.html',
+        url: '/accountProfile',
+        controller: 'AccountProfileController',
+        templateUrl: 'app/views/account/accountProfile/accountProfile.tpl.html',
         data: {
           titleExp: '"Account Profile"',
           navMode: 'sub'

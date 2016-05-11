@@ -17,7 +17,7 @@
         controller: 'UsersViewController'
       })
       .state('users.profile', {
-        url:'/profile',
+        url:'/accountProfile',
         templateUrl: 'app/views/users/profile/profile.tpl.html',
         resolve: {
           'Users': 'Users',

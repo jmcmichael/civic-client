@@ -1,17 +1,9 @@
 (function() {
-  'use strict';
   angular.module('civic.account')
-    .controller('AccountViewController', AccountViewController)
-    .controller('AccountNotificationsController', AccountNotificationsController)
-    .controller('AccountProfileController', AccountProfileController)  ;
+    .controller('NotificationsController', NotificationsController);
 
   // @ngInject
-  function AccountViewController($scope) {
-
-  }
-
-  // @ngInject
-  function AccountNotificationsController($scope,
+  function NotificationsController($scope,
                                           $state,
                                           $stateParams,
                                           CurrentUser,
@@ -37,7 +29,7 @@
     $scope.$watch(function() { return CurrentUser.data.feed}, function(feed){
       vm.total = feed.length;
 
-      if($stateParams.category == 'all') {
+      if(_.isUndefined($stateParams.category) || $stateParams.category  === 'all') {
         angular.copy(feed, vm.notifications);
       } else {
         angular.copy(
@@ -70,10 +62,4 @@
       });
     }
   }
-
-  // @ngInject
-  function AccountProfileController() {
-    console.log('AccountProfileController called.');
-  }
-
 })();
