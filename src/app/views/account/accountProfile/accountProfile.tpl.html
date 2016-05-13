@@ -1,3 +1,42 @@
 <div class="account-profile">
-  <h3>Profile</h3>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="profile-preview">
+        <user-summary user="vm.user"></user-summary>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Edit Profile:</h3>
+      <form class="form-horizontal" name="vm.form" novalidate>
+        <formly-form options="vm.options" model="vm.user" fields="vm.profileEditFields">
+
+        </formly-form>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-5 col-xs-offset-2">
+      <div class="buttons">
+        <!--<div class="pull-left">-->
+          <!--<cancel-button></cancel-button>-->
+        <!--</div>-->
+        <div class="pull-right">
+          <button type="submit"
+                  class="btn btn-default"
+                  ng-disabled="vm.form.$invalid"
+                  ng-click="vm.submit(vm.user, vm.options)">
+            Submit Profile Updates
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="row">-->
+    <!--<div class="col-xs-12">-->
+      <!--<pre ng-bind="vm.user|json"></pre>-->
+    <!--</div>-->
+  <!--</div>-->
 </div>

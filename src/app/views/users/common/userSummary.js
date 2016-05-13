@@ -19,6 +19,8 @@
     vm.currentUser= Security.currentUser;
     vm.stats = {};
 
+    vm.user = $scope.user;
+    
     Stats.user($scope.user.id).then(function(stats) {
       vm.stats = stats;
     });

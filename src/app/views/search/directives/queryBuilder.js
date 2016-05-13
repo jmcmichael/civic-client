@@ -37,8 +37,6 @@
     // function definition
     function onSubmit() {
       $log.debug(JSON.stringify(vm.model));
-      //vm.searchResults = Search.post(vm.model);
-      //vm.showEvidenceGrid = true;
       vm.model.entity = entity;
       vm.model.save = true;
       Search.post(vm.model)

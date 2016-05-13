@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-3">
       <div class="card-block">
-        <user-card user="user">
+        <user-card user="vm.user">
         </user-card>
       </div>
     </div>
@@ -11,15 +11,15 @@
         <table class="table-info">
           <tr>
             <td class="key">Role:</td>
-            <td class="value">{{user.role|ifEmpty: '--'}}</td>
+            <td class="value">{{vm.user.role|ifEmpty: '--'}}</td>
           </tr>
           <tr>
             <td class="key">Username:</td>
-            <td class="value">{{user.username|ifEmpty: '--'}}</td>
+            <td class="value">{{vm.user.username|ifEmpty: '--'}}</td>
           </tr>
           <tr>
             <td class="key">Name:</td>
-            <td class="value">{{user.name|ifEmpty: '--'}}</td>
+            <td class="value">{{vm.user.name|ifEmpty: '--'}}</td>
           </tr>
           <!--<tr>-->
             <!--<td class="key">Email:</td>-->
@@ -27,12 +27,12 @@
           <!--</tr>-->
           <tr>
             <td class="key">Area of Expertise:</td>
-            <td class="value">{{user.area_of_expertise|ifEmpty: '--'}}</td>
+            <td class="value">{{vm.user.area_of_expertise|ifEmpty: '--'}}</td>
           </tr>
           <tr>
             <td colspan="2">
               <button
-                ng-show="user.id === vm.currentUser.id"
+                ng-show="vm.user.id === vm.currentUser.id"
                 class="btn btn-xs btn-default btn-block"
                 ui-sref="users.edit"
                 style="margin-top: 16px;">Edit Profile</button>
