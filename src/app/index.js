@@ -54,7 +54,7 @@
     formlyConfigProvider.extras.removeChromeAutoComplete = true;
     $uiViewScrollProvider.useAnchorScroll();
     $anchorScrollProvider.disableAutoScrolling();
-    $compileProvider.debugInfoEnabled(false);
+    $compileProvider.debugInfoEnabled(true);
   }
 
 // @ngInject

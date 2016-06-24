@@ -76,7 +76,7 @@
   }
 
   // @ngInject
-  function HelpViewController($scope, $modal) {
+  function HelpViewController($scope, $uibModal) {
     var vm = $scope.vm = {};
     vm.tabs = {
       main: [
@@ -199,7 +199,7 @@
       ]
     };
     vm.imgPopup = function imgPopup() {
-      $modal.open({
+      $uibModal.open({
         animation: false,
         backdrop: true,
         template: '<div><img src="assets/images/GP-113_CIViC_schema-collaboration_SCHEMA_v1a.png" ' +

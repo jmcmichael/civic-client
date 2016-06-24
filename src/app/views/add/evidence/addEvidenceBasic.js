@@ -101,7 +101,10 @@
           editable: false,
           formatter: 'model[options.key].name',
           typeahead: 'item as item.name for item in to.data.typeaheadSearch($viewValue)',
-          onSelect: 'to.data.entrez_id = $model.entrez_id',
+          onSelect: function($item, $model, $label, $event){
+            console.log('onSelect');
+          },
+          // onSelect: 'to.data.entrez_id = $model.entrez_id',
           helpText: 'Entrez Gene name (e.g. BRAF). Gene name must be known to the Entrez database.',
           data: {
             entrez_id: '--',

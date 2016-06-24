@@ -7,7 +7,7 @@
   function typeaheadConfig(formlyConfigProvider) {
     formlyConfigProvider.setType({
       name: 'typeahead',
-      templateUrl: 'components/forms/fieldTypes/typeahead.tpl.html'
+      templateUrl: 'components/forms/fieldTypes/typeahead.tpl.html',
     });
 
     formlyConfigProvider.setType({
