@@ -82,7 +82,7 @@
     vm.evidenceFields = [
       {
         key: 'gene',
-        type: 'horizontalTypeaheadHelp',
+        type: 'geneHorizontalTypeaheadHelp',
         wrapper: ['entrezIdDisplay', 'validationMessages'],
         controller: /* @ngInject */ function($scope, $stateParams, Genes) {
           // populate field if geneId provided
@@ -97,13 +97,9 @@
           label: 'Gene Entrez Name',
           value: 'vm.newEvidence.gene',
           minLength: 32,
-          required: true,
-          editable: false,
-          formatter: 'model[options.key].name',
-          typeahead: 'item as item.name for item in to.data.typeaheadSearch($viewValue)',
-          onSelect: function($item, $model, $label, $event){
-            console.log('onSelect');
-          },
+          // onSelect: function($item, $model, $label, $event){
+          //   console.log('onSelect');
+          // },
           // onSelect: 'to.data.entrez_id = $model.entrez_id',
           helpText: 'Entrez Gene name (e.g. BRAF). Gene name must be known to the Entrez database.',
           data: {
@@ -539,13 +535,9 @@
         templateOptions: {
           label: 'Drug Names',
           inputOptions: {
-            type: 'typeahead',
+            type: 'drugsTypeahead',
             wrapper: null,
             templateOptions: {
-              typeahead: 'item.name for item in options.data.typeaheadSearch($viewValue)',
-              // focus: true,
-              onSelect: 'options.data.pushNew(model, index)',
-              editable: true
             },
             data: {
               pushNew: function(model, index) {

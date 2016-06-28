@@ -11,8 +11,24 @@
     });
 
     formlyConfigProvider.setType({
+      name: 'geneTypeahead',
+      templateUrl: 'components/forms/fieldTypes/geneTypeahead.tpl.html'
+    });
+
+    formlyConfigProvider.setType({
+      name: 'drugsTypeahead',
+      templateUrl: 'components/forms/fieldTypes/drugsTypeahead.tpl.html'
+    });
+
+    formlyConfigProvider.setType({
       name: 'horizontalTypeaheadHelp',
       extends: 'typeahead',
+      wrapper: ['horizontalBootstrapHelp', 'bootstrapHasError']
+    });
+
+    formlyConfigProvider.setType({
+      name: 'geneHorizontalTypeaheadHelp',
+      extends: 'geneTypeahead',
       wrapper: ['horizontalBootstrapHelp', 'bootstrapHasError']
     });
   }
