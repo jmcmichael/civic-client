@@ -18,7 +18,6 @@
 
   // @ngInject
   function eventItemController($scope, $state, _) {
-    console.log('eventItemController called.');
     var vm = $scope.vm = {};
     var params = $scope.event.state_params;
 

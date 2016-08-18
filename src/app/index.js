@@ -43,6 +43,7 @@
     'civic.events',
     'civic.users',
     'civic.add',
+    'civic.confirm',
     'civic.community'
   ])
     .run(appRun)
@@ -107,6 +108,7 @@
     'civic.security.login'
   ]);
   angular.module('civic.config', ['formly', 'formlyBootstrap']);
+  angular.module('civic.confirm', []);
   angular.module('civic.states', ['ui.router']);
   angular.module('civic.services', ['ui.router', 'ngResource', 'angular-lodash/filters']);
   angular.module('civic.pages', ['civic.security.authorization', 'ui.router']);

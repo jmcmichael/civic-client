@@ -1,0 +1,57 @@
+<div class="confirmView">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="jumbotron">
+        <h2>Welcome to CIViC!</h2>
+        <p>We've created for you a profile based on the information provided by whichever OAuth provider you used to sign up. Depending on the provider, we may not have been able to fill in all of the details. You may provide or edit these details using the form below.</p>
+        <p>Please also review and approve the licensing terms that will be applied to all of the content that you contribute to CIViC.</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">
+      <h3 class="confirm-subheader">Your User Card</h3>
+      <div class="card-block">
+        <user-card user="vm.userEdit"></user-card>
+      </div>
+      <div class="small" style="color: #999; padding: .5em;">
+        <p>
+          <strong>NOTE:</strong> Profile avatars are obtained from the <a href="https://secure.gravatar.com">Gravatar service</a>. If the email address you use on CIViC isn't known to Gravatar, it will generate a custom random geometric avatar.</p>
+        <p>To upload or change your avatar, <a href="https://secure.gravatar.com/">sign up or log into Gravatar</a>, and link the email address you use on CIViC with your desired image.</p>
+        </p>
+      </div>
+    </div>
+    <div class="col-xs-9">
+      <form class="form-horizontal">
+        <formly-form
+          options="vm.options"
+          model="vm.userEdit"
+          form="vm.profileForm"
+          fields="vm.userEditFields">
+        </formly-form>
+      </form>
+      <div class="row">
+        <div class="col-xs-10 col-xs-offset-2">
+          <button
+            type="submit"
+            class="btn btn-default"
+            ng-click="vm.saveProfile(vm.userEdit, vm.options)">
+            Save Profile & Licensing Terms Agreement
+          </button>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 1em;">
+        <div class="col-xs-5 col-xs-offset-2">
+          <div class="alert alert-success"
+               ng-show="vm.submitSuccess">
+            Profile updates successfully applied.
+          </div>
+          <div class="alert alert-danger"
+               ng-show="vm.submitFail">
+            There was an error updating your profile! Please check the browser console for more information.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

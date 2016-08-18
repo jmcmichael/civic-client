@@ -1,0 +1,28 @@
+@import 'bower_components/bootstrap/less/mixins.less';
+@import 'bower_components/bootstrap/less/variables.less';
+@import 'src/app/styles/_civic-variables.less';
+@import 'src/app/styles/_mixins.less';
+
+.confirmView {
+  .jumbotron {
+    background-color: @civicPurple;
+    color: white;
+    margin-top: @contentPadding;
+    padding: 2em;
+    h1,h2,h3 {
+      margin: 0 !important;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-top: .5em;
+      font-weight: normal;
+    }
+  }
+
+  .confirm-subheader {
+    margin: 0 0 .5em 0;
+    padding: 0 0 .25em 0;
+    border-bottom: 1px solid lightgray;
+  }
+}

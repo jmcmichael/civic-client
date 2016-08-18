@@ -1,6 +1,5 @@
 (function() {
   'use strict';
-  console.log('SearchView loaded.');
   angular.module('civic.search')
     .controller('SearchViewController', SearchViewController)
     .config(SearchView);

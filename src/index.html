@@ -181,6 +181,9 @@
     <link rel="stylesheet" href="app/views/account/notifications/components/notification.css">
     <link rel="stylesheet" href="app/views/account/notifications/notifications.css">
 
+    <!-- Confirm Styles -->
+    <link rel="stylesheet" href="app/views/confirm/confirm.css">
+
     <!-- endbuild -->
   </head>
   <body ng-class="{ home: $root.view.navMode === 'home', sub: $root.view.navMode === 'sub' }">
@@ -329,7 +332,6 @@
     </style>
     <script src="../bower_components/please-wait/build/please-wait.js"></script>
     <script type="text/javascript">
-      console.log('showing preloader');
       window.loading_screen = window.pleaseWait({
         logo: "assets/images/preloader_logo_v1.png",
         backgroundColor: '#14091b',
@@ -638,6 +640,10 @@
     <script src="app/views/account/profile/ProfileController.js"></script>
     <script src="app/views/account/profile/ProfileView.js"></script>
     <script src="app/views/account/notifications/components/notification.js"></script>
+
+    <!-- ** Confirm View ** -->
+    <script src="app/views/confirm/ConfirmView.js"></script>
+
     <!-- inject:partials -->
 
     <!-- endinject -->
