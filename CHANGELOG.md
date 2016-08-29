@@ -1,3 +1,17 @@
+0.0.5 / 2016-08-26
+==================
+* sources now have their own summary view
+* advanced search now provides an option to search sources
+* browse view now provides option to browse sources
+* data releases now shown in a table instead of long list
+* evidence summary now shows citation (linked to source summary view) and pubmed ID (linked to pubmed detail page)
+
+
+0.0.4 / 2016-08-18
+==================
+* added publication year to evidence search query builder
+
+
 0.0.3 / 2016-08-11
 ==================
 * browse view tabs no longer wrap when displayed in sm and md window widths

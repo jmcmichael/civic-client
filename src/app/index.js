@@ -41,6 +41,7 @@
     'civic.account',
     'civic.browse',
     'civic.events',
+    'civic.sources',
     'civic.users',
     'civic.add',
     'civic.confirm',
@@ -110,6 +111,7 @@
   angular.module('civic.config', ['formly', 'formlyBootstrap']);
   angular.module('civic.confirm', []);
   angular.module('civic.states', ['ui.router']);
+  angular.module('civic.sources', []);
   angular.module('civic.services', ['ui.router', 'ngResource', 'angular-lodash/filters']);
   angular.module('civic.pages', ['civic.security.authorization', 'ui.router']);
   angular.module('civic.account', ['civic.security.authorization', 'ui.router']);

@@ -243,9 +243,75 @@
           width: '15%',
           enableFiltering: true,
           allowCellFocus: false,
+          sort: { direction: uiGridConstants.DESC },
           filter: {
             condition: uiGridConstants.filter.CONTAINS
           }
+        }
+      ],
+      'sources': [
+        {
+          name: 'pubmed_id',
+          displayName: 'Pubmed ID',
+          enableFiltering: true,
+          allowCellFocus: false,
+          type: 'string',
+          width: '8%',
+          filter: {
+            condition: uiGridConstants.filter.CONTAINS
+          }
+        },
+        {
+          name: 'author_list',
+          displayName: 'Authors',
+          enableFiltering: true,
+          allowCellFocus: false,
+          type: 'string',
+          width: '20%',
+          cellTemplate: 'app/views/browse/directives/browseGridTooltipCell.tpl.html',
+          filter: {
+            condition: uiGridConstants.filter.CONTAINS
+          }
+        },
+        {
+          name: 'publication_year',
+          displayName: 'Year',
+          type: 'string',
+          enableFiltering: true,
+          allowCellFocus: false,
+          width: '8%'
+        },
+        {
+          name: 'journal',
+          displayName: 'Journal',
+          type: 'string',
+          enableFiltering: true,
+          allowCellFocus: false,
+          width: '15%',
+          cellTemplate: 'app/views/browse/directives/browseGridTooltipCell.tpl.html',
+          filter: {
+            condition: uiGridConstants.filter.CONTAINS
+          }
+        },
+        {
+          name: 'name',
+          displayName: 'Name',
+          type: 'string',
+          allowCellFocus: false,
+          enableFiltering: true,
+          cellTemplate: 'app/views/browse/directives/browseGridTooltipCell.tpl.html',
+          filter: {
+            condition: uiGridConstants.filter.CONTAINS
+          }
+        },
+        {
+          name: 'evidence_item_count',
+          type: 'number',
+          displayName: 'Evidence Items',
+          width: '10%',
+          enableFiltering: false,
+          allowCellFocus: false,
+          sort: { direction: uiGridConstants.DESC }
         }
       ]
     };
@@ -309,12 +375,17 @@
             geneId: row.entity.id,
             '#': 'gene'
           };
-        } else {
+        } else if (ctrl.mode === 'variant_groups') {
           state = 'events.genes.summary.variantGroups.summary';
           params = {
             geneId: row.entity.gene_ids[0],
             variantGroupId: row.entity.id,
             '#': 'variant-group'
+          };
+        } else if (ctrl.mode === 'sources') {
+          state = 'sources.summary';
+          params = {
+            sourceId: row.entity.id
           };
         }
 
@@ -340,6 +411,8 @@
               variant_group.variant_count = variant_group.variants.split(', ').length;
               return variant_group;
             });
+            ctrl.gridOptions.data = data.result;
+          } else if (ctrl.mode === 'sources') {
             ctrl.gridOptions.data = data.result;
           } else {
             ctrl.gridOptions.data = data.result;

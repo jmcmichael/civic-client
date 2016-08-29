@@ -41,7 +41,11 @@
         {
           label: 'Presentation Graphics',
           state: 'graphics'
-        },        
+        },
+        {
+          label: 'Meetings and Events',
+          state: 'meetings'
+        },
         {
           label: 'Contact',
           state: 'contact'
