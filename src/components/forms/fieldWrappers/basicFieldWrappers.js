@@ -153,5 +153,12 @@
         '<span class="small" ng-bind-html="to.data.attributeDefinition"></span>'
       ].join(' ')
     });
+
+    formlyConfig.setWrapper({
+      name: 'multiValidation',
+      types: ['input', 'customInput'],
+      templateUrl: 'my-messages.html'
+    });
+
   }
 })();

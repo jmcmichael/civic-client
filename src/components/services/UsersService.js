@@ -6,14 +6,6 @@
 
   // @ngInject
   function UsersResource($resource) {
-    //var cache = $cacheFactory.get('$http');
-
-    //var cacheInterceptor = function(response) {
-    //  console.log(['EvidenceResource: removing', response.config.url, 'from $http cache.'].join(' '));
-    //  cache.remove(response.config.url);
-    //  return response.$promise;
-    //};
-
 
     return $resource('/api/users/:userId',
       {
@@ -42,6 +34,15 @@
           method: 'GET',
           isArray: false,
           cache: false
+        },
+        usernameStatus: {
+          url: '/api/users/username_status/',
+          params: {
+            username: '@username'
+          },
+          method: 'GET',
+          isArray: false,
+          cache: false
         }
       }
     );
@@ -62,7 +63,8 @@
       get: get,
       query: query,
       queryEvents: queryEvents,
-      update: update
+      update: update,
+      usernameStatus: usernameStatus
     };
 
     function get(userId) {
@@ -88,6 +90,13 @@
     }
     function update(user) {
       return UsersResource.update(user).$promise
+        .then(function(response) {
+          return response.$promise;
+        });
+    }
+
+    function usernameStatus(username) {
+      return UsersResource.usernameStatus({username: username}).$promise
         .then(function(response) {
           return response.$promise;
         });

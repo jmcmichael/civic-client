@@ -1,8 +1,8 @@
 (function() {
   'use strict';
-angular.module('civic.confirm')
-  .controller('ConfirmViewController', ConfirmViewController)
-  .config(ConfirmView);
+  angular.module('civic.confirm')
+    .controller('ConfirmViewController', ConfirmViewController)
+    .config(ConfirmView);
 
   // @ngInject
   function ConfirmView($stateProvider) {
@@ -25,7 +25,7 @@ angular.module('civic.confirm')
   }
 
   // @ngInject
-  function ConfirmViewController($state, $scope, Security, user) {
+  function ConfirmViewController($state, $scope, Security, Users, user) {
     console.log('ConfirmViewController loaded.');
     var vm = $scope.vm = {};
 
@@ -58,6 +58,18 @@ angular.module('civic.confirm')
           minLength: 8,
           value: 'vm.userEdit.user',
           helpText: 'Username'
+        },
+        validators: {
+          expression: function($viewValue, $modelValue, scope) {
+            Users.usernameStatus($viewValue).then(function(response) {
+              if(_.isEmpty(response)) {
+                return true;
+              } else {
+                scope.message = response.username
+              }
+            })
+          },
+          message: '"Sorry, the username " + $viewValue + " " + $scope.message'
         }
       },
       {
