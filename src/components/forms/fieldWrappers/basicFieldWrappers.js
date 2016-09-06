@@ -154,10 +154,13 @@
       ].join(' ')
     });
 
-    formlyConfig.setWrapper({
+    formlyConfigProvider.setWrapper({
       name: 'multiValidation',
       types: ['input', 'customInput'],
-      templateUrl: 'my-messages.html'
+      template: [
+        '<formly-transclude></formly-transclude>',
+        '<span class="small" ng-bind-html="to.data.attributeDefinition"></span>'
+      ].join(' ')
     });
 
   }
