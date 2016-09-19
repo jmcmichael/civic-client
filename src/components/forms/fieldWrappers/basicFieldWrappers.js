@@ -154,7 +154,7 @@
       ].join(' ')
     });
 
-    formlyConfig.setWrapper({
+    formlyConfigProvider.setWrapper({
       name: 'multiValidation',
       types: ['input', 'customInput'],
       templateUrl: 'my-messages.html'
