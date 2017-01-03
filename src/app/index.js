@@ -22,6 +22,7 @@
     'angulartics',
     'angulartics.google.analytics',
     'monospaced.elastic',
+    'ui.router.tabs',
 
     // config
     'civic.states',
