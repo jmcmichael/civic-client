@@ -110,23 +110,28 @@
         },
         {
           heading: 'Variants',
-          state: 'help.variants'
+          parent: 'help.variants',
+          state: 'help.variants.overview'
         },
         {
           heading: 'Genes',
-          state: 'help.genes'
+          state: 'help.genes.overview',
+          parent: 'help.genes'
         },
         {
           heading: 'Variant Groups',
-          state: 'help.variantGroups'
+          state: 'help.variantGroups.overview',
+          parent: 'help.variantGroups'
         },
         {
           heading: 'Get Help',
-          state: 'help.get'
+          state: 'help.get',
+          parent: 'help.get'
         },
         {
           heading: 'Report Problem',
-          state: 'help.report'
+          state: 'help.report',
+          parent: 'help.report'
         }
       ],
       evidence: [
