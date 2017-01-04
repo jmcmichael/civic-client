@@ -93,13 +93,14 @@
   }
 
   // @ngInject
-  function HelpViewController($scope, $modal) {
+  function HelpViewController($scope, $state, $modal) {
     var vm = $scope.vm = {};
+    vm.$state = $state;
     vm.tabs = {
       main: [
         {
           heading: 'Introduction',
-          parent: 'help.evidence',
+          parent: 'help.introduction',
           state: 'help.introduction'
         },
         {
