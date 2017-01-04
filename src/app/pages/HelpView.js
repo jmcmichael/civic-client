@@ -129,22 +129,27 @@
         {
           heading: 'Overview',
           template: 'app/pages/help_evidence_overview.tpl.html',
+          active: true
         },
         {
           heading: 'Variant Origin',
           template: 'app/pages/help_evidence_variant_origin.tpl.html',
+          active: false
         },
         {
           heading: 'Evidence Type',
           template: 'app/pages/help_evidence_types.tpl.html',
+          active: false
         },
         {
           heading: 'Evidence Level',
           template: 'app/pages/help_evidence_levels.tpl.html',
+          active: false
         },
         {
           heading: 'Trust Rating',
           template: 'app/pages/help_evidence_trust_ratings.tpl.html',
+          active: false
         }
       ],
       variant: [
