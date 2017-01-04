@@ -33,6 +33,22 @@
           navMode: 'sub'
         }
       })
+      .state('help.evidence.overview', {
+        url: '/overview',
+        templateUrl: 'app/pages/help_evidence_overview.tpl.html',
+        data:{
+          titleExp: 'Help: Evidence Overview',
+          navMode: 'sub'
+        }
+      })
+      .state('help.evidence.variant-origin', {
+        url: '/variant-origin',
+        templateUrl: 'app/pages/help_evidence_variant_origin.tpl.html',
+        data:{
+          titleExp: 'Help: Variant Origin',
+          navMode: 'sub'
+        }
+      })
       .state('help.variants', {
         url: '/variants',
         templateUrl: 'app/pages/help_variants.tpl.html',
@@ -113,27 +129,22 @@
         {
           heading: 'Overview',
           template: 'app/pages/help_evidence_overview.tpl.html',
-          active: true
         },
         {
           heading: 'Variant Origin',
           template: 'app/pages/help_evidence_variant_origin.tpl.html',
-          active: false
         },
         {
           heading: 'Evidence Type',
           template: 'app/pages/help_evidence_types.tpl.html',
-          active: false
         },
         {
           heading: 'Evidence Level',
           template: 'app/pages/help_evidence_levels.tpl.html',
-          active: false
         },
         {
           heading: 'Trust Rating',
           template: 'app/pages/help_evidence_trust_ratings.tpl.html',
-          active: false
         }
       ],
       variant: [
