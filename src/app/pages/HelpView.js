@@ -26,6 +26,7 @@
         }
       })
       .state('help.evidence', {
+        abstract: true,
         url: '/evidence',
         templateUrl: 'app/pages/help_evidence_main.tpl.html',
         data: {
@@ -37,7 +38,7 @@
         url: '/overview',
         templateUrl: 'app/pages/help_evidence_overview.tpl.html',
         data:{
-          titleExp: 'Help: Evidence Overview',
+          titleExp: '"Help: Evidence Overview"',
           navMode: 'sub'
         }
       })
@@ -45,7 +46,7 @@
         url: '/variant-origin',
         templateUrl: 'app/pages/help_evidence_variant_origin.tpl.html',
         data:{
-          titleExp: 'Help: Variant Origin',
+          titleExp: '"Help: Variant Origin"',
           navMode: 'sub'
         }
       })
@@ -98,11 +99,13 @@
       main: [
         {
           heading: 'Introduction',
+          parent: 'help.evidence',
           state: 'help.introduction'
         },
         {
           heading: 'Evidence',
-          state: 'help.evidence'
+          parent: 'help.evidence',
+          state: 'help.evidence.overview'
         },
         {
           heading: 'Variants',
@@ -129,28 +132,28 @@
         {
           heading: 'Overview',
           template: 'app/pages/help_evidence_overview.tpl.html',
-          active: true
+          state: 'help.evidence.overview'
         },
         {
           heading: 'Variant Origin',
           template: 'app/pages/help_evidence_variant_origin.tpl.html',
-          active: false
+          state: 'help.evidence.variant-origin'
         },
-        {
-          heading: 'Evidence Type',
-          template: 'app/pages/help_evidence_types.tpl.html',
-          active: false
-        },
-        {
-          heading: 'Evidence Level',
-          template: 'app/pages/help_evidence_levels.tpl.html',
-          active: false
-        },
-        {
-          heading: 'Trust Rating',
-          template: 'app/pages/help_evidence_trust_ratings.tpl.html',
-          active: false
-        }
+        // {
+        //   heading: 'Evidence Type',
+        //   template: 'app/pages/help_evidence_types.tpl.html',
+        //   active: false
+        // },
+        // {
+        //   heading: 'Evidence Level',
+        //   template: 'app/pages/help_evidence_levels.tpl.html',
+        //   active: false
+        // },
+        // {
+        //   heading: 'Trust Rating',
+        //   template: 'app/pages/help_evidence_trust_ratings.tpl.html',
+        //   active: false
+        // }
       ],
       variant: [
         {
