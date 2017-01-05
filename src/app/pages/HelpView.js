@@ -248,7 +248,7 @@
         {
           heading: 'Report Problem',
           state: 'help.report',
-          parent: 'help.get'
+          parent: 'help.report'
         }
       ],
       evidence: [
