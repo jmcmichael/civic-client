@@ -75,10 +75,51 @@
         }
       })
       .state('help.variants', {
+        abstract: true,
         url: '/variants',
         templateUrl: 'app/pages/help_variants.tpl.html',
         data: {
           titleExp: '"Help: Variants"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.variants.overview', {
+        url: '/variants-overview',
+        templateUrl: 'app/pages/help_variant_overview.tpl.html',
+        data: {
+          titleExp: '"Help: Variant Naming"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.variants.naming', {
+        url: '/variants-naming',
+        templateUrl: 'app/pages/help_variant_naming.tpl.html',
+        data: {
+          titleExp: '"Help: Variant Naming"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.variants.summary', {
+        url: '/variants-summary',
+        templateUrl: 'app/pages/help_variant_summaries.tpl.html',
+        data: {
+          titleExp: '"Help: Variant Summaries"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.variants.type', {
+        url: '/variants-type',
+        templateUrl: 'app/pages/help_variant_varianttypes.tpl.html',
+        data: {
+          titleExp: '"Help: Variant Types"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.variants.coordinates', {
+        url: '/variants-coordinates',
+        templateUrl: 'app/pages/help_variant_coordinates.tpl.html',
+        data: {
+          titleExp: '"Help: Variant Coordinates"',
           navMode: 'sub'
         }
       })
@@ -125,6 +166,8 @@
         {
           heading: 'Introduction',
           parent: 'help.introduction',
+          // TODO: figure out why ui-sref-active isn't working with the help main menu
+          // thus requireing this parent state & ng-class kludge (see menu links in help.tpl.html)
           state: 'help.introduction'
         },
         {
@@ -183,28 +226,23 @@
       variant: [
         {
           heading: 'Overview',
-          template: 'app/pages/help_variant_overview.tpl.html',
-          active: true
+          state: 'help.variants.overview'
         },
         {
           heading: 'Variant Name',
-          template: 'app/pages/help_variant_naming.tpl.html',
-          active: false
+          state: 'help.variants.naming'
         },
         {
           heading: 'Variant Summary',
-          template: 'app/pages/help_variant_summaries.tpl.html',
-          active: false
+          state: 'help.variants.summary'
         },
         {
           heading: 'Variant Type',
-          template: 'app/pages/help_variant_varianttypes.tpl.html',
-          active: false
+          state: 'help.variants.type'
         },
         {
           heading: 'Variant Coordinates',
-          template: 'app/pages/help_variant_coordinates.tpl.html',
-          active: false
+          state: 'help.variants.coordinates'
         }
       ],
       gene: [
