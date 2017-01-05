@@ -124,6 +124,7 @@
         }
       })
       .state('help.genes', {
+        abstract: true,
         url: '/genes',
         templateUrl: 'app/pages/help_genes.tpl.html',
         data: {
@@ -131,9 +132,58 @@
           navMode: 'sub'
         }
       })
+      .state('help.genes.overview', {
+        url: '/genes-overview',
+        templateUrl: 'app/pages/help_gene_overview.tpl.html',
+        data: {
+          titleExp: '"Help: Genes Overview"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.genes.summary', {
+        url: '/genes-summary',
+        templateUrl: 'app/pages/help_gene_summary.tpl.html',
+        data: {
+          titleExp: '"Help: Genes Summary"',
+          navMode: 'sub'
+        }
+      })
       .state('help.variantGroups', {
+        abstract: true,
         url: '/variantGroups',
         templateUrl: 'app/pages/help_variant_groups.tpl.html',
+        data: {
+          titleExp: '"Help: Variant Groups"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.variantGroups.overview', {
+        url: '/overview',
+        templateUrl: 'app/pages/help_variant_group_overview.tpl.html',
+        data: {
+          titleExp: '"Help: Variant Groups Overview"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.variantGroups.summary', {
+        url: '/summary',
+        templateUrl: 'app/pages/help_variant_group_summary.tpl.html',
+        data: {
+          titleExp: '"Help: Variant Groups Summary"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.variantGroups.creating', {
+        url: '/creating',
+        templateUrl: 'app/pages/help_variant_group_create.tpl.html',
+        data: {
+          titleExp: '"Help: Creating Variant Groups"',
+          navMode: 'sub'
+        }
+      })
+      .state('help.variantGroups.adding', {
+        url: '/adding',
+        templateUrl: 'app/pages/help_variant_group_addto.tpl.html',
         data: {
           titleExp: '"Help: Variant Groups"',
           navMode: 'sub'
@@ -248,35 +298,29 @@
       gene: [
         {
           heading: 'Overview',
-          template: 'app/pages/help_gene_overview.tpl.html',
-          active: true
+          state: 'help.genes.overview'
         },
         {
           heading: 'Gene Summary',
-          template: 'app/pages/help_gene_summary.tpl.html',
-          active: false
+          state: 'help.genes.summary'
         }
       ],
       variant_group: [
         {
           heading: 'Overview',
-          template: 'app/pages/help_variant_group_overview.tpl.html',
-          active: true
+          state: 'help.variantGroups.overview'
         },
         {
           heading: 'Variant Group Summary',
-          template: 'app/pages/help_variant_group_summary.tpl.html',
-          active: false
+          state: 'help.variantGroups.summary'
         },
         {
           heading: 'Create a Variant Group',
-          template: 'app/pages/help_variant_group_create.tpl.html',
-          active: false
+          state: 'help.variantGroups.creating'
         },
         {
           heading: 'Add to a Variant Group',
-          template: 'app/pages/help_variant_group_addto.tpl.html',
-          active: false
+          state: 'help.variantGroups.adding'
         }
       ]
     };
