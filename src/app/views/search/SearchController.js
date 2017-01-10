@@ -893,6 +893,7 @@
                   { value: 'description', name: 'Description' },
                   { value: 'entrez_id', name: 'Entrez ID' },
                   { value: 'name', name: 'Name' },
+                  { value: 'hgvs_expression', name: 'HGVS Expression' },
                   { value: 'suggested_changes_count', name: 'Suggested Revisions' }
                 ],
                 onChange: function(value, options, scope) {
@@ -995,6 +996,36 @@
             description: [
               {
                 key: 'name',
+                type: 'queryBuilderSelect',
+                className: 'inline-field',
+                data: {
+                  defaultValue: 'contains'
+                },
+                templateOptions: {
+                  label: '',
+                  required: true,
+                  options: [
+                    {value: 'contains', name: 'contains'},
+                    {value: 'begins_with', name: 'begins with'},
+                    {value: 'does_not_contain', name: 'does not contain'},
+                    {value: 'is_empty', name: 'is empty'}
+                  ]
+                }
+              },
+              {
+                key: 'parameters[0]',
+                type: 'input',
+                className: 'inline-field',
+                hideExpression: 'model.name === "is_empty"',
+                templateOptions: {
+                  label: '',
+                  required: true
+                }
+              }
+            ],
+            hgvs_expression: [
+              {
+                key: 'hgvs_expression',
                 type: 'queryBuilderSelect',
                 className: 'inline-field',
                 data: {
@@ -2528,7 +2559,7 @@
           tooltip: 'Variants with a variant starting between 16 and 60K in its primary chromosome',
           search: {'operator':'AND','queries':[{'field':'start','condition':{'name':'is_in_the_range','parameters':['16000000','60000000']}}]}
         },
-        { 
+        {
           name: 'Variant type contains frameshift',
           tooltip: 'Variants with a variant type that contains the world frameshift',
           search: {'operator':'AND','queries':[{'field':'variant_types','condition':{'name':'contains','parameters':['frameshift']}}]}
