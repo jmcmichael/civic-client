@@ -27,6 +27,18 @@
       wrapper: ['horizontalBootstrapHelp', 'bootstrapHasError']
     });
 
+    formlyConfigProvider.setType({
+      name: 'multiselect',
+      extends: 'select',
+      defaultOptions: {
+        ngModelAttrs: {
+          'true': {
+            value: 'multiple'
+          }
+        }
+      }
+    });
+
     // select
     formlyConfigProvider.setType({
       name: 'horizontalSelect',
@@ -40,6 +52,11 @@
       wrapper: ['horizontalBootstrapHelp', 'bootstrapHasError']
     });
 
+    formlyConfigProvider.setType({
+      name: 'horizontalMultiselectHelp',
+      extends: 'multiselect',
+      wrapper: ['horizontalBootstrapHelp', 'bootstrapHasError']
+    });
     // textarea
     formlyConfigProvider.setType({
       name: 'horizontalTextarea',
