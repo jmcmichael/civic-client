@@ -244,7 +244,7 @@
           value: 'vm.newEvidence.doid',
           required: true,
           minLength: 32,
-          helpText: help['Disease'],
+          helpText: 'Please enter a disease name. Disease must exist in the CIViC database.',
           typeahead: 'item as item.name for item in to.data.typeaheadSearch($viewValue)',
           onSelect: 'to.data.doid = $model.doid',
           templateUrl: 'components/forms/fieldTypes/diseaseTypeahead.tpl.html',
@@ -273,14 +273,24 @@
                 $scope.to.data.doid = response[0].doid;
               });
           }
-        },
-
-        expressionProperties: {
-          'templateOptions.disabled': 'model.noDoid === true', // deactivate if noDoid is checked
-          'templateOptions.required': 'model.noDoid === false' // required only if noDoid is unchecked
-        },
-        hideExpression: 'model.noDoid'
+        }
       },
+      // {
+      //   key: 'nccn_guidelines',
+      //   type: 'horizontalMultiselectHelp',
+      //   templateOptions: {
+      //     label: 'NCCN Guidelines',
+      //     required: true,
+      //     value: 'vm.newEvidence.evidence_type',
+      //     ngOptions: 'option["value"] as option["label"] for option in to.options',
+      //     options: [{ value: '', label: 'Please select NCCN Guidelines' }].concat(make_options(ConfigService.nccnGuidelines)),
+      //     helpText: 'Please select applicable NCCN Guidelines',
+      //     data: {
+      //       attributeDefinition: '&nbsp;',
+      //       attributeDefinitions: descriptions.evidence_type
+      //     }
+      //   }
+      // },
     ];
 
     vm.add = function(newAssertion) {
