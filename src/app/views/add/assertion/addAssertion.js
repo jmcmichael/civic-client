@@ -32,7 +32,8 @@
                                   Datatables,
                                   Security,
                                   Genes,
-                                  Diseases) {
+                                  Diseases,
+                                  DrugSuggestions) {
     var vm = this;
     vm.type = 'ASSERTION';
 
@@ -42,6 +43,8 @@
     var el_options = ConfigService.optionMethods.el_options; // make options for evidence level
     var cs_options = ConfigService.optionMethods.cs_options; // make options for clinical significance
     var merge_props = ConfigService.optionMethods.merge_props; // reduce depth of object tree by 1; by merging properties of properties of obj
+    var ampLevels = ConfigService.ampLevels;
+    var nccnGuidelines = ConfigService.nccnGuidelines;
 
     vm.isEditor = Security.isEditor();
     vm.isAdmin = Security.isAdmin();
@@ -64,8 +67,17 @@
       disease: {
         name: ''
       },
+      drugs: [],
+      drug_interaction_type: null,
+      evidence_direction: '',
       evidence_type: '',
-      clinical_significance: ''
+      clinical_significance: '',
+      amp_level: '',
+      nccn_guideline: '',
+      nccn_guideline_version: '',
+      fda_regulatory_approval: null,
+      fda_companion_test: null
+
     };
 
     vm.assertionFields = [
@@ -178,6 +190,46 @@
         }
       },
       {
+        key: 'disease',
+        type: 'horizontalTypeaheadHelp',
+        wrapper: ['loader', 'diseasedisplay'],
+        templateOptions: {
+          label: 'Disease',
+          value: 'vm.newEvidence.doid',
+          required: true,
+          minLength: 32,
+          helpText: 'Please enter a disease name. Disease must exist in the CIViC database.',
+          typeahead: 'item as item.name for item in to.data.typeaheadSearch($viewValue)',
+          onSelect: 'to.data.doid = $model.doid',
+          templateUrl: 'components/forms/fieldTypes/diseaseTypeahead.tpl.html',
+          data: {
+            doid: '--',
+            typeaheadSearch: function(val) {
+              return Diseases.beginsWith(val)
+                .then(function(response) {
+                  var labelLimit = 70;
+                  return _.map(response, function(disease) {
+                    if (disease.aliases.length > 0) {
+                      disease.alias_list = disease.aliases.join(', ');
+                      if(disease.alias_list.length > labelLimit) { disease.alias_list = _.truncate(disease.alias_list, labelLimit); }
+                    }
+                    return disease;
+                  });
+                });
+            }
+          }
+        },
+        controller: /* @ngInject */ function($scope, $stateParams, Diseases) {
+          if($stateParams.diseaseName) {
+            Diseases.beginsWith($stateParams.diseaseName)
+              .then(function(response) {
+                $scope.model.disease = response[0];
+                $scope.to.data.doid = response[0].doid;
+              });
+          }
+        }
+      },
+      {
         key: 'evidence_type',
         type: 'horizontalSelectHelp',
         wrapper: 'attributeDefinition',
@@ -224,55 +276,242 @@
         }
       },
       {
+        key: 'evidence_direction',
+        type: 'horizontalSelectHelp',
+        wrapper: 'attributeDefinition',
+        controller: /* @ngInject */ function($scope, $stateParams, ConfigService, _) {
+          if($stateParams.evidenceDirection) {
+            // ensure evidence type defined before setting evidence direction
+            if($stateParams.evidenceType) {
+              var et = $stateParams.evidenceType;
+              var ed = $stateParams.evidenceDirection;
+              var permitted = _.keys(ConfigService.evidenceAttributeDescriptions.evidence_direction[et]);
+              if(_.includes(permitted, ed)) {
+                $scope.model.evidence_direction = $stateParams.evidenceDirection;
+                $scope.to.data.attributeDefinition = $scope.to.data.attributeDefinitions[et][ed];
+              } else {
+                console.warn('Ignoring pre-population of Evidence Direction with invalid value: ' + ed);
+              }
+
+            } else {
+              console.warn('Cannot pre-populate Evidence Direction without specifying Evidence Type.');
+            }
+          }
+        },
+        templateOptions: {
+          label: 'Evidence Direction',
+          value: 'vm.newEvidence.evidence_direction',
+          ngOptions: 'option["value"] as option["label"] for option in to.options',
+          options: [{ value: '', label: 'Please select an Evidence Direction' }].concat(make_options(descriptions.evidence_direction['Diagnostic'])), //dummy index e.g. 'Diagnostic'
+          valueProp: 'value',
+          labelProp: 'label',
+          helpText: help['Evidence Direction'],
+          data: {
+            attributeDefinition: 'Please choose Evidence Type before selecting Evidence Direction.',
+            attributeDefinitions: descriptions.evidence_direction,
+            updateDefinition: function(value, options, scope) {
+              // set attribute definition
+              options.templateOptions.data.attributeDefinition =
+                options.templateOptions.data.attributeDefinitions[scope.model.evidence_type][scope.model.evidence_direction];
+            }
+          },
+          onChange: function(value, options, scope) {
+            options.templateOptions.data.updateDefinition(value, options, scope);
+          }
+        },
+        expressionProperties: {
+          'templateOptions.disabled': 'model.evidence_type === ""' // deactivate if evidence_type unselected
+        }
+      },
+      {
+        key: 'clinical_significance',
+        type: 'horizontalSelectHelp',
+        wrapper: 'attributeDefinition',
+        controller: /* @ngInject */ function($scope, $stateParams, ConfigService, _) {
+          if($stateParams.clinicalSignificance) {
+            // ensure evidence type defined before setting evidence direction
+            if($stateParams.evidenceType) {
+              var et = $stateParams.evidenceType;
+              var cs = $stateParams.clinicalSignificance;
+              var permitted = _.keys(ConfigService.evidenceAttributeDescriptions.clinical_significance[et]);
+              if(_.includes(permitted, cs)) {
+                $scope.model.clinical_significance = $stateParams.clinicalSignificance;
+                $scope.to.data.attributeDefinition = $scope.to.data.attributeDefinitions[cs];
+              } else {
+                console.warn('Ignoring pre-population of Clinical Significance with invalid value: ' + cs);
+              }
+
+            } else {
+              console.warn('Cannot pre-populate Clinical Significance without specifying Evidence Type.');
+            }
+          }
+        },
+        templateOptions: {
+          label: 'Clinical Significance',
+          required: true,
+          value: 'vm.newEvidence.clinical_significance',
+          // stores unmodified options array for expressionProperties
+          clinicalSignificanceOptions: [{ type: 'default', value: '', label: 'Please select a Clinical Significance' }].concat(cs_options(descriptions.clinical_significance)),
+          ngOptions: 'option["value"] as option["label"] for option in to.options',
+          // actual options displayed in the select, modified by expressionProperties
+          options: [{ type: 'default', value: '', label: 'Please select a Clinical Significance' }].concat(cs_options(descriptions.clinical_significance)),
+          helpText: help['Clinical Significance'],
+          data: {
+            attributeDefinition: 'Please choose Evidence Type before selecting Clinical Significance.',
+            attributeDefinitions: merge_props(descriptions.clinical_significance),
+            updateDefinition: function(value, options, scope) {
+              // set attribute definition
+              options.templateOptions.data.attributeDefinition =
+                options.templateOptions.data.attributeDefinitions[scope.model.clinical_significance];
+            }
+          },
+          onChange: function(value, options, scope) {
+            options.templateOptions.data.updateDefinition(value, options, scope);
+          }
+        },
+        expressionProperties: {
+          'templateOptions.options': function($viewValue, $modelValue, scope) {
+            return  _.filter(scope.to.clinicalSignificanceOptions, function(option) {
+              return !!(option.type === scope.model.evidence_type ||
+              option.type === 'default' ||
+              option.type === 'N/A');
+            });
+          },
+          'templateOptions.disabled': 'model.evidence_type === ""' // deactivate if evidence_type unselected
+        }
+      },
+      {
+        key: 'drugs',
+        type: 'multiInput',
+        templateOptions: {
+          label: 'Drug(s)',
+          inputOptions: {
+            type: 'typeahead',
+            wrapper: null,
+            templateOptions: {
+              typeahead: 'item.name for item in options.data.typeaheadSearch($viewValue)',
+              // focus: true,
+              onSelect: 'options.data.pushNew(model, index)',
+              editable: true
+            },
+            data: {
+              pushNew: function(model, index) {
+                model.splice(index+1, 0, '');
+              },
+              typeaheadSearch: function(val) {
+                return DrugSuggestions.query(val)
+                  .then(function(response) {
+                    return _.map(response, function(drugname) {
+                      return { name: drugname };
+                    });
+                  });
+              }
+            }
+          },
+          helpText: help['Drug Names']
+        },
+        hideExpression: function($viewValue, $modelValue, scope) {
+          return  scope.model.evidence_type !== 'Predictive';
+        }
+      },
+      {
+        key: 'drug_interaction_type',
+        type: 'horizontalSelectHelp',
+        wrapper: 'attributeDefinition',
+        templateOptions: {
+          label: 'Drug Interaction Type',
+          required: true,
+          options: [{ type: 'default', value: null, label: 'Please select a Drug Interaction Type' }].concat(make_options(descriptions.drug_interaction_type)),
+          valueProp: 'value',
+          labelProp: 'label',
+          helpText: help['Drug Interaction Type'],
+          data: {
+            attributeDefinition: '&nbsp;',
+            attributeDefinitions: descriptions.drug_interaction_type
+          },
+          onChange: function(value, options) {
+            options.templateOptions.data.attributeDefinition = options.templateOptions.data.attributeDefinitions[value];
+          }
+        },
+        hideExpression: function($viewValue, $modelValue, scope) {
+          return !(scope.model.evidence_type === 'Predictive' && // evidence type must be predictive
+          _.without(scope.model.drugs, '').length > 1);
+        }
+      },
+      {
+        key: 'amp_level',
+        type: 'horizontalSelectHelp',
+        wrapper: 'attributeDefinition',
+        templateOptions: {
+          label: 'AMP Level',
+          options: ([{ value: '', label: 'Please select an AMP Level' }].concat(_.map(ampLevels, function(level) {
+            return {value: level, label: level};
+          }))),
+          valueProp: 'value',
+          labelProp: 'label',
+          helpText: 'AMP Level help goes here.',
+          data: {
+            attributeDefinition: '&nbsp;',
+            attributeDefinitions: descriptions.evidence_level
+          },
+          onChange: function(value, options) {
+            options.templateOptions.data.attributeDefinition = options.templateOptions.data.attributeDefinitions[value];
+          }
+        }
+      },
+      {
+        key: 'nccn_guideline',
+        type: 'horizontalSelectHelp',
+        templateOptions: {
+          label: 'NCCN Guideline',
+          options: ([{ value: '', label: 'Please select an NCCN Guideline' }].concat(_.map(nccnGuidelines, function(guideline) {
+            return { value: guideline, label: guideline};
+          }))),
+          valueProp: 'value',
+          labelProp: 'label',
+          helpText: 'NCCN Guideline help goes here.'
+        }
+      },
+      {
+        key: 'nccn_guideline_version',
+        type: 'horizontalInputHelp',
+        templateOptions: {
+          label: 'NCCN Guideline Version',
+          minLength: 32,
+          helpText: 'NCCN Guideline version, in the form of its volume number followed by a dot followed by its year, e.g. "5.2017"'
+        }
+      },
+      {
+        key: 'fda_regulatory_approval',
+        type: 'horizontalCheckbox',
+        templateOptions: {
+          label: 'Assertion has FDA regulatory approval.',
+          onChange: function(value, options, scope) {
+            // set companion test to false if no regulatory approval
+            if(value===false) {
+              scope.model.fda_companion_test = false;
+            }
+          }
+        }
+      },
+      {
+        key: 'fda_companion_test',
+        type: 'horizontalCheckbox',
+        templateOptions: {
+          label: 'Assertion has FDA companion test.'
+        },
+        hideExpression: '!model.fda_regulatory_approval'
+      },
+      {
         key: 'description',
         type: 'horizontalTextareaHelp',
         templateOptions: {
           rows: 8,
           label: 'Description',
           value: 'vm.assertion.description',
-          focus: true,
-          minLength: 32,
-          helpText: 'A brief description of this new assertion.'
-        }
-      },
-      {
-        key: 'disease',
-        type: 'horizontalTypeaheadHelp',
-        wrapper: ['loader', 'diseasedisplay'],
-        templateOptions: {
-          label: 'Disease',
-          value: 'vm.newEvidence.doid',
           required: true,
           minLength: 32,
-          helpText: 'Please enter a disease name. Disease must exist in the CIViC database.',
-          typeahead: 'item as item.name for item in to.data.typeaheadSearch($viewValue)',
-          onSelect: 'to.data.doid = $model.doid',
-          templateUrl: 'components/forms/fieldTypes/diseaseTypeahead.tpl.html',
-          data: {
-            doid: '--',
-            typeaheadSearch: function(val) {
-              return Diseases.beginsWith(val)
-                .then(function(response) {
-                  var labelLimit = 70;
-                  return _.map(response, function(disease) {
-                    if (disease.aliases.length > 0) {
-                      disease.alias_list = disease.aliases.join(', ');
-                      if(disease.alias_list.length > labelLimit) { disease.alias_list = _.truncate(disease.alias_list, labelLimit); }
-                    }
-                    return disease;
-                  });
-                });
-            }
-          }
-        },
-        controller: /* @ngInject */ function($scope, $stateParams, Diseases) {
-          if($stateParams.diseaseName) {
-            Diseases.beginsWith($stateParams.diseaseName)
-              .then(function(response) {
-                $scope.model.disease = response[0];
-                $scope.to.data.doid = response[0].doid;
-              });
-          }
+          helpText: 'A brief description of this new assertion.'
         }
       },
       // {
