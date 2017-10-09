@@ -76,8 +76,8 @@
       nccn_guideline: '',
       nccn_guideline_version: '',
       fda_regulatory_approval: null,
-      fda_companion_test: null
-
+      fda_companion_test: null,
+      evidence_items: [103,104,106]
     };
 
     vm.assertionFields = [
@@ -533,7 +533,8 @@
     ];
 
     vm.add = function(newAssertion) {
-      newAssertion.variants = _.without(newAssertion.variants, ''); // delete blank input values
+      newAssertion.variants = _.without(newAssertion.variants, '');
+      newAssertion.drugs = _.without(newAssertion.drugs, '');
       Assertions.add(newAssertion)
         .then(function(response) {
           console.log('new assertion created!');
@@ -541,8 +542,7 @@
           vm.showInstructions = false;
           vm.showForm = false;
           vm.showSuccessMessage = true;
-          vm.newGroupId = response.id;
-          vm.newGeneId = response.variants[0].gene_id; // grab gene id from first variant in group
+          vm.newAssertionId = response.id; // grab gene id from first variant in group
         })
         .catch(function(error) {
           console.error('assertion submit error!');
