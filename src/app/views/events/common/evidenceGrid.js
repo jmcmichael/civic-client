@@ -13,6 +13,7 @@
         evidence: '=',
         variant: '=',
         source: '=',
+        assertion: '=',
         rows: '=',
         showGeneCol: '=',
         showVariantCol: '=',
