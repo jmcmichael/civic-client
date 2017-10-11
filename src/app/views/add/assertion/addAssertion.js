@@ -513,27 +513,10 @@
           minLength: 32,
           helpText: 'A brief description of this new assertion.'
         }
-      },
-      // {
-      //   key: 'nccn_guidelines',
-      //   type: 'horizontalMultiselectHelp',
-      //   templateOptions: {
-      //     label: 'NCCN Guidelines',
-      //     required: true,
-      //     value: 'vm.newEvidence.evidence_type',
-      //     ngOptions: 'option["value"] as option["label"] for option in to.options',
-      //     options: [{ value: '', label: 'Please select NCCN Guidelines' }].concat(make_options(ConfigService.nccnGuidelines)),
-      //     helpText: 'Please select applicable NCCN Guidelines',
-      //     data: {
-      //       attributeDefinition: '&nbsp;',
-      //       attributeDefinitions: descriptions.evidence_type
-      //     }
-      //   }
-      // },
+      }
     ];
 
     vm.add = function(newAssertion) {
-      newAssertion.variants = _.without(newAssertion.variants, '');
       newAssertion.drugs = _.without(newAssertion.drugs, '');
       Assertions.add(newAssertion)
         .then(function(response) {
