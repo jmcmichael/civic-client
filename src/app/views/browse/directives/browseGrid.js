@@ -39,10 +39,18 @@
     ctrl.count= Number();
 
     ctrl.filters = [];
-    ctrl.sorting = [{
-      field: 'evidence_item_count',
-      direction: 'desc'
-    }];
+
+    if(ctrl.mode !== 'evidence_items') {
+      ctrl.sorting = [{
+        field: 'evidence_item_count',
+        direction: 'desc'
+      }];
+    } else {
+      ctrl.sorting = [{
+        field: 'id',
+        direction: 'asc'
+      }];
+    }
 
     $scope.$watch('ctrl.totalItems', function() {
       ctrl.totalPages = Math.ceil(ctrl.totalItems / pageCount);
@@ -75,6 +83,53 @@
 
     // set up column defs and data transforms for each mode
     var modeColumnDefs = {
+      'evidence_items': [
+        {
+          name: 'gene_name',
+          enableFiltering: true,
+          allowCellFocus: false,
+          cellTemplate: 'app/views/events/common/genericHighlightCell.tpl.html',
+          filter: {
+            condition: uiGridConstants.filter.CONTAINS
+          }
+        },
+        {
+          name: 'variant_name',
+          enableFiltering: true,
+          allowCellFocus: false,
+          cellTemplate: 'app/views/events/common/genericHighlightCell.tpl.html',
+          filter: {
+            condition: uiGridConstants.filter.CONTAINS
+          }
+        },
+        {
+          name: 'disease',
+          enableFiltering: true,
+          allowCellFocus: false,
+          cellTemplate: 'app/views/events/common/genericHighlightCell.tpl.html',
+          filter: {
+            condition: uiGridConstants.filter.CONTAINS
+          }
+        },
+        {
+          name: 'source_citation',
+          enableFiltering: true,
+          allowCellFocus: false,
+          cellTemplate: 'app/views/events/common/genericHighlightCell.tpl.html',
+          filter: {
+            condition: uiGridConstants.filter.CONTAINS
+          }
+        },
+        {
+          name: 'source_title',
+          enableFiltering: true,
+          allowCellFocus: false,
+          cellTemplate: 'app/views/events/common/genericHighlightCell.tpl.html',
+          filter: {
+            condition: uiGridConstants.filter.CONTAINS
+          }
+        },
+      ],
       'variants': [
         {
           name: 'variant',
@@ -228,7 +283,7 @@
           displayName: 'Count',
           width: '7%',
           enableFiltering: false,
-          allowCellFocus: false,
+          allowCellFocus: false
         },
         {
           name: 'entrez_genes',
@@ -397,6 +452,14 @@
           params = {
             sourceId: row.entity.id
           };
+        } else if (ctrl.mode === 'evidence_items') {
+          state = 'events.genes.summary.variants.summary.evidence.summary';
+          params = {
+            geneId: row.entity.gene_id,
+            variantId: row.entity.variant_id,
+            evidenceId: row.entity.id,
+            '#': 'variant'
+          };
         }
 
         if(event.metaKey) {
@@ -421,8 +484,6 @@
               variant_group.variant_count = variant_group.variants.split(', ').length;
               return variant_group;
             });
-            ctrl.gridOptions.data = data.result;
-          } else if (ctrl.mode === 'sources') {
             ctrl.gridOptions.data = data.result;
           } else {
             ctrl.gridOptions.data = data.result;
