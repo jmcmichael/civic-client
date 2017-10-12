@@ -105,7 +105,6 @@
         },
         templateOptions: {
           label: 'Gene Entrez Name',
-          value: 'vm.newEvidence.gene',
           minLength: 32,
           required: true,
           editable: false,
@@ -241,16 +240,16 @@
               $scope.model.evidence_type = $stateParams.evidenceType;
               $scope.to.data.attributeDefinition = $scope.to.data.attributeDefinitions[et];
             } else {
-              console.warn('Ignoring pre-population of Evidence Type with invalid value: ' + et);
+              console.warn('Ignoring pre-population of Assertion Type with invalid value: ' + et);
             }
           }
         },
         templateOptions: {
-          label: 'Evidence Type',
+          label: 'Assertion Type',
           required: true,
           value: 'vm.newEvidence.evidence_type',
           ngOptions: 'option["value"] as option["label"] for option in to.options',
-          options: [{ value: '', label: 'Please select an Evidence Type' }].concat(make_options(descriptions.evidence_type)),
+          options: [{ value: '', label: 'Please select an Assertion Type' }].concat(make_options(descriptions.evidence_type)),
           onChange: function(value, options, scope) {
             // reset clinical_significance, as its options will change
             scope.model.clinical_significance = '';
@@ -299,15 +298,15 @@
           }
         },
         templateOptions: {
-          label: 'Evidence Direction',
+          label: 'Assertion Direction',
           value: 'vm.newEvidence.evidence_direction',
           ngOptions: 'option["value"] as option["label"] for option in to.options',
-          options: [{ value: '', label: 'Please select an Evidence Direction' }].concat(make_options(descriptions.evidence_direction['Diagnostic'])), //dummy index e.g. 'Diagnostic'
+          options: [{ value: '', label: 'Please select an Assertion Direction' }].concat(make_options(descriptions.evidence_direction['Diagnostic'])), //dummy index e.g. 'Diagnostic'
           valueProp: 'value',
           labelProp: 'label',
           helpText: help['Evidence Direction'],
           data: {
-            attributeDefinition: 'Please choose Evidence Type before selecting Evidence Direction.',
+            attributeDefinition: 'Please choose Assertion Type before selecting Assertion Direction.',
             attributeDefinitions: descriptions.evidence_direction,
             updateDefinition: function(value, options, scope) {
               // set attribute definition
@@ -342,7 +341,7 @@
               }
 
             } else {
-              console.warn('Cannot pre-populate Clinical Significance without specifying Evidence Type.');
+              console.warn('Cannot pre-populate Clinical Significance without specifying Assertion Type.');
             }
           }
         },
@@ -357,7 +356,7 @@
           options: [{ type: 'default', value: '', label: 'Please select a Clinical Significance' }].concat(cs_options(descriptions.clinical_significance)),
           helpText: help['Clinical Significance'],
           data: {
-            attributeDefinition: 'Please choose Evidence Type before selecting Clinical Significance.',
+            attributeDefinition: 'Please choose Assertion Type before selecting Clinical Significance.',
             attributeDefinitions: merge_props(descriptions.clinical_significance),
             updateDefinition: function(value, options, scope) {
               // set attribute definition
