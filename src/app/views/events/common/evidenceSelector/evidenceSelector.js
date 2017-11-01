@@ -3,13 +3,13 @@
 
   /**
    * Renders an data grid of evidence items, the last column containing a button labeled either 'Add' or 'Remove',
-   * depending on if the grid's role is specified as 'search' or 'list'. Clicking 'Add' will add the evidence item object
+   * depending on if the grid's mode is specified as 'search' or 'list'. Clicking 'Add' will add the evidence item object
    * to the array provided to the 'items' attribute. Clicking 'Remove' will remove the item's object from the 'items' array.
    * Obviously two grids need to operate in tandem to be of much use, so this grid will likely be utlilized by a more abstract
    * component that renders both grids.
    *
    * @param {string} role - Either 'search' or 'list'.
-   * @param {array} items - Array that will contain a list of evidence item objects manipulated by the grids.
+   * @param {array} items - Array containing the list of evidence item objects manipulated by the grids.
    */
 
   angular.module('civic.events')
@@ -23,9 +23,9 @@
       replace: true,
       scope: {
         mode: '=',
-        page: '='
+        items: '='
       },
-      templateUrl: 'app/views/browse/directives/evidenceSelector.tpl.html',
+      templateUrl: 'app/views/events/common/evidenceSelector/evidenceSelector.tpl.html',
       controller: 'EvidenceSelectorController'
     };
     return directive;
