@@ -20,7 +20,7 @@
         context: '=',
         rounded: '='
       },
-      templateUrl: 'app/views/events/common/evidenceGrid.tpl.html',
+      templateUrl: 'app/views/events/common/evidenceGrid/evidenceGrid.tpl.html',
       controller: 'EvidenceGridController'
     };
     return directive;
@@ -43,12 +43,12 @@
     ctrl.showGridKey = false;
 
     ctrl.keyPopover = {
-      templateUrl: 'app/views/events/common/evidenceGridPopoverKey.tpl.html',
+      templateUrl: 'app/views/events/common/evidenceGrid/evidenceGridPopoverKey.tpl.html',
       title: 'Evidence Grid Column Key'
     };
 
     ctrl.exportPopover = {
-      templateUrl: 'app/views/events/common/gridExportPopover.tpl.html',
+      templateUrl: 'app/views/events/common/evidenceGrid/gridExportPopover.tpl.html',
       title: 'Save CSV',
       include: 'all',
       type: 'csv'
@@ -108,7 +108,7 @@
           console.log(row);
         }
       },
-      rowTemplate: 'app/views/events/common/evidenceGridRowTemplate.tpl.html',
+      rowTemplate: 'app/views/events/common/evidenceGrid/evidenceGridRowTemplate.tpl.html',
       gridMenuCustomItems: [
         {
           title: 'Show Accepted',
@@ -154,7 +154,7 @@
           }
         },
         { name: 'id',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'EID',
           headerTooltip: 'Evidence ID',
           type: 'number',
@@ -162,21 +162,21 @@
           allowCellFocus: false,
           minWidth: 50,
           width: '7%',
-          cellTemplate: 'app/views/events/common/evidenceGridIdCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridIdCell.tpl.html'
         },
         { name: 'gene',
           field: 'state_params.gene.name',
           displayName: 'GENE',
           visible: $scope.showGeneCol,
           headerTooltip: 'Gene',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           type: 'string',
           enableFiltering: true,
           allowCellFocus: false,
           filter: {
             condition: uiGridConstants.filter.CONTAINS
           },
-          cellTemplate: 'app/views/events/common/evidenceGridGeneCell.tpl.html',
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridGeneCell.tpl.html',
           width: '6%'
         },
         { name: 'variant',
@@ -184,18 +184,18 @@
           displayName: 'VARIANT',
           visible: $scope.showVariantCol,
           headerTooltip: 'Variant',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           type: 'string',
           enableFiltering: true,
           allowCellFocus: false,
           filter: {
             condition: uiGridConstants.filter.CONTAINS
           },
-          cellTemplate: 'app/views/events/common/evidenceGridVariantCell.tpl.html',
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridVariantCell.tpl.html',
           width: '8%'
         },
         { name: 'description',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'DESC',
           headerTooltip: 'Description',
           type: 'string',
@@ -204,11 +204,11 @@
           filter: {
             condition: uiGridConstants.filter.CONTAINS
           },
-          cellTemplate: 'app/views/events/common/evidenceGridEvidenceCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridEvidenceCell.tpl.html'
         },
         { name: 'disease',
           field: 'disease.name',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'DIS',
           headerTooltip: 'Disease',
           type: 'string',
@@ -217,10 +217,10 @@
           filter: {
             condition: uiGridConstants.filter.CONTAINS
           },
-          cellTemplate: 'app/views/events/common/evidenceGridDiseaseCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridDiseaseCell.tpl.html'
         },
         { name: 'druglist',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'DRUGS',
           headerTooltip: 'Drugs',
           type: 'string',
@@ -229,10 +229,10 @@
           filter: {
             condition: uiGridConstants.filter.CONTAINS
           },
-          cellTemplate: 'app/views/events/common/evidenceGridDrugCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridDrugCell.tpl.html'
         },
         { name: 'evidence_level',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'EL',
           headerTooltip: 'Evidence Level',
           type: 'string',
@@ -252,10 +252,10 @@
           sort: { direction: uiGridConstants.ASC },
           width: '6%',
           minWidth: 50,
-          cellTemplate: 'app/views/events/common/evidenceGridLevelCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridLevelCell.tpl.html'
         },
         { name: 'evidence_type',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'ET',
           headerTooltip: 'Evidence Type',
           type: 'string',
@@ -290,10 +290,10 @@
           },
           width: '6%',
           minWidth: 50,
-          cellTemplate: 'app/views/events/common/evidenceGridTypeCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTypeCell.tpl.html'
         },
         { name: 'evidence_direction',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'ED',
           headerTooltip: 'Evidence Direction',
           type: 'string',
@@ -310,10 +310,10 @@
           },
           width: '6%',
           minWidth: 50,
-          cellTemplate: 'app/views/events/common/evidenceDirectionCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceDirectionCell.tpl.html'
         },
         { name: 'clinical_significance',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'CS',
           headerTooltip: 'Clinical Significance',
           type: 'string',
@@ -337,10 +337,10 @@
           },
           width: '6%',
           minWidth: 50,
-          cellTemplate: 'app/views/events/common/evidenceGridClinicalSignificanceCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridClinicalSignificanceCell.tpl.html'
         },
         { name: 'variant_origin',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'VO',
           headerTooltip: 'Variant Origin',
           type: 'string',
@@ -360,10 +360,10 @@
           },
           width: '6%',
           minWidth: 50,
-          cellTemplate: 'app/views/events/common/evidenceGridVariantOriginCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridVariantOriginCell.tpl.html'
         },
         { name: 'rating',
-          headerCellTemplate: 'app/views/events/common/evidenceGridTooltipHeader.tpl.html',
+          headerCellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridTooltipHeader.tpl.html',
           displayName: 'TR',
           headerTooltip: 'Trust Rating',
           type: 'number',
@@ -385,7 +385,7 @@
           sort: { direction: uiGridConstants.DESC },
           width: '6%',
           minWidth: 50,
-          cellTemplate: 'app/views/events/common/evidenceGridRatingCell.tpl.html'
+          cellTemplate: 'app/views/events/common/evidenceGrid/evidenceGridRatingCell.tpl.html'
           //cellTemplate: '<div>{{row.entity[col.field]}}</div>'
         }
       ]
