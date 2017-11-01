@@ -512,6 +512,15 @@
           minLength: 32,
           helpText: 'A brief description of this new assertion.'
         }
+      },
+      {
+        key: 'evidence_items',
+        type: 'evidenceSelectorField',
+        wrapper: ['simpleHasError'],
+        templateOptions: {
+          label: 'Evidence Items',
+          helpText: 'Please use the grids to add/remove evidence items.'
+        }
       }
     ];
 

@@ -89,8 +89,7 @@
       enableRowHeaderSelection: false,
       multiSelect: false,
       modifierKeysToMultiSelect: false,
-      noUnselect: true,
-      rowTemplate: 'app/views/browse/directives/evidenceSelectorRow.tpl.html'
+      noUnselect: true
     };
 
     // set up column defs and data transforms for each mode
