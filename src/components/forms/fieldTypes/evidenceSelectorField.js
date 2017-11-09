@@ -17,7 +17,7 @@
       },
       controller: /* @ngInject */ function($scope) {
 
-        $scope.model = [1,2,3];
+        // $scope.model = [1,2,3];
 
         $scope.selectItem = function(item) {
           console.log('item selected.');

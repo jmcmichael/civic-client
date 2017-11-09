@@ -41,7 +41,7 @@
                                 _) {
     var ctrl = $scope.ctrl = {};
 
-    var pageCount = 25;
+    var pageCount = 5;
     var maxRows = ctrl.maxRows = pageCount;
 
     // declare ui paging/sorting/filtering vars
@@ -77,7 +77,7 @@
 
       paginationPageSizes: [maxRows],
       paginationPageSize: maxRows,
-      minRowsToShow: maxRows + 1,
+      minRowsToShow: maxRows,
 
       enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
       enableVerticalScrollbar: uiGridConstants.scrollbars.NEVER,
