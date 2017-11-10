@@ -9,4 +9,12 @@
       page="1"
       items="model.evidence_items"></evidence-selector>
   </div>
+  <div class="col-sm-offset-2 col-sm-10">
+    <p>Included Items:</p>
+    <ul>
+      <li ng-repeat="item in model.evidence_items">
+        <a ng-click="ctrl.removeItem(item)">{{item.id}}</a>
+      </li>
+    </ul>
+  </div>
 </div>

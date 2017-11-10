@@ -64,6 +64,12 @@
     ctrl.addItem = function(item) {
       console.log('evidenceSelector addItem:');
       console.log(item);
+      $scope.items.push(item);
+    };
+
+    ctrl.removeItem = function(item) {
+      console.log('evidenceSelector removeItem:');
+      console.log(item);
     };
 
     ctrl.gridOptions = {
@@ -193,6 +199,14 @@
             condition: uiGridConstants.filter.CONTAINS
           }
         },
+        {
+          name: 'action_remove',
+          displayName: '',
+          width: '70',
+          allowCellFocus: false,
+          enableFiltering: false,
+          cellTemplate: 'app/views/events/common/evidenceSelector/evidenceSelectorRemoveCell.tpl.html'
+        }
       ]
     };
 
