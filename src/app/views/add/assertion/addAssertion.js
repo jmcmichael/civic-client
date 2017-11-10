@@ -77,7 +77,7 @@
       nccn_guideline_version: '',
       fda_regulatory_approval: null,
       fda_companion_test: null,
-      evidence_items: [103,104,106]
+      evidence_items: []
     };
 
     vm.assertionFields = [
