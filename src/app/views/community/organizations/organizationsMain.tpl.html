@@ -7,6 +7,89 @@
 
   <div class="row leaderboards-block">
 
+    <!-- SUBMISSIONS LEADERBOARD -->
+    <div class="col-xs-6">
+      <div class="leaderboard">
+        <h4>Most Submissions</h4>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th class="user">
+                User
+              </th>
+              <th class="count">
+                Submissions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in vm.leaderboards.most_submissions">
+              <td class="user">
+                <organization-block organization="row.organization"></organization-block>
+              </td>
+              <td class="count" ng-bind="row.count|number:0"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- REVISIONS LEADERBOARD -->
+    <div class="col-xs-6">
+      <div class="leaderboard">
+        <h4>Most Revisions</h4>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th class="user">
+                User
+              </th>
+              <th class="count">
+                Revisions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in vm.leaderboards.most_suggested_changes">
+              <td class="user">
+                <organization-block organization="row.organization"></organization-block>
+              </td>
+              <td class="count" ng-bind="row.count|number:0"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row leaderboards-block">
+    <!-- MODERATIONS LEADERBOARD -->
+    <div class="col-xs-6">
+      <div class="leaderboard">
+        <h4>Most Moderations</h4>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th class="user">
+                User
+              </th>
+              <th class="count">
+                Moderations
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in vm.leaderboards.most_moderations">
+              <td class="user">
+                <organization-block organization="row.organization"></organization-block>
+              </td>
+              <td class="count" ng-bind="row.count|number:0"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- COMMENTS LEADERBOARD -->
     <div class="col-xs-6">
       <div class="leaderboard">
@@ -34,87 +117,6 @@
       </div>
     </div>
 
-    <!-- SUBMISSIONS LEADERBOARD -->
-    <div class="col-xs-6">
-      <div class="leaderboard">
-        <h4>Most Submissions</h4>
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th class="user">
-                User
-              </th>
-              <th class="count">
-                Submissions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="row in vm.leaderboards.most_submissions">
-              <td class="user">
-                <organization-block organization="row.organization"></organization-block>
-              </td>
-              <td class="count" ng-bind="row.count|number:0"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="row leaderboards-block">
-    <!-- REVISIONS LEADERBOARD -->
-    <div class="col-xs-6">
-      <div class="leaderboard">
-        <h4>Most Revisions</h4>
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th class="user">
-                User
-              </th>
-              <th class="count">
-                Revisions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="row in vm.leaderboards.most_suggested_changes">
-              <td class="user">
-                <organization-block organization="row.organization"></organization-block>
-              </td>
-              <td class="count" ng-bind="row.count|number:0"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- MODERATIONS LEADERBOARD -->
-    <div class="col-xs-6">
-      <div class="leaderboard">
-        <h4>Most Moderations</h4>
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th class="user">
-                User
-              </th>
-              <th class="count">
-                Moderations
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="row in vm.leaderboards.most_moderations">
-              <td class="user">
-                <organization-block organization="row.organization"></organization-block>
-              </td>
-              <td class="count" ng-bind="row.count|number:0"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
