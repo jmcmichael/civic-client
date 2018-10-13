@@ -62,10 +62,12 @@
       }
     });
     $scope.evidence_category_counts = {
-      accepted: 0, // variants with accepted evidence
-      submitted: 0, // variants with submitted evidence
+      accepted: 0,
+      submitted: 0,
+      accepted_submitted: 0,
       rejected: 0,
-      orphaned: 0 // variants with rejected evidence
+      orphaned: 0,
+      total: 0
     };
 
     $scope.options_filter = 'accepted';
@@ -85,8 +87,10 @@
           var counts = variant.evidence_item_statuses;
           if (counts.accepted_count > 0) { $scope.evidence_category_counts.accepted++;}
           if (counts.submitted_count > 0) { $scope.evidence_category_counts.submitted++;}
+          if (counts.submitted_count > 0 || counts.accepted_count > 0) { $scope.evidence_category_counts.accepted_submitted++;}
           if (counts.rejected_count > 0) { $scope.evidence_category_counts.rejected++;}
           if (counts.accepted_count === 0 && counts.submitted_count === 0 && counts.rejected_count === 0) { $scope.evidence_category_counts.orphaned++;}
+          $scope.evidence_category_counts.total++;
         });
         $scope.variants = variants;
       });
