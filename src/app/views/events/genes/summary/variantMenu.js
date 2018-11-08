@@ -27,6 +27,7 @@
     $scope.hasHiddenVariants = false;
     $scope.variants = Genes.data.variants;
 
+    $scope.menuMode = 'list';
 
     // functions used in ng-show directive on variant buttons
     $scope.hasValidEvidenceItems = function(variant) { // has accepted and/or submitted items
@@ -61,28 +62,33 @@
       reverse: false
     };
 
-    $scope.sortOptions = [
-      { value: true, label: 'descending' },
-      { value: false, label: 'ascending' }
+    $scope.sortOptions = [{
+        value: true,
+        label: 'descending'
+      },
+      {
+        value: false,
+        label: 'ascending'
+      }
     ];
 
     $scope.variantMenuOrderBy = function(variant) {
       var order = 0;
       switch ($scope.order.field) {
-      case 'name':
-        order = variant.name;
-        break;
-      case 'position':
-        order = variant.coordinates.start;
-        break;
-      default:
-        order = variant.name;
+        case 'name':
+          order = variant.name;
+          break;
+        case 'position':
+          order = variant.coordinates.start;
+          break;
+        default:
+          order = variant.name;
       }
       return order;
     };
 
-    $scope.$watchCollection('stateParams', function(stateParams){
-      if(_.has(stateParams, 'geneId')) {
+    $scope.$watchCollection('stateParams', function(stateParams) {
+      if (_.has(stateParams, 'geneId')) {
         $scope.addVarGroupUrl = addVarGroupUrlBase + '?geneId=' + stateParams.geneId;
       }
     });
@@ -96,39 +102,57 @@
     $scope.options_filter = 'accepted';
     $scope.query = '';
     $scope.variantFilterFn = function(variant) {
-      return  ( $scope.options_filter === 'accepted' && $scope.hasAcceptedItems(variant) )
-        || ( $scope.options_filter === 'accepted_submitted' && ($scope.hasAcceptedItems(variant) || $scope.hasSubmittedItems(variant)) )
-        || ( $scope.options_filter === 'submitted' && $scope.hasSubmittedItems(variant) )
-        || ( variant.id === $scope.stateParams.variantId )
-        || ( $scope.options_filter === 'all' ) ;
+      return ($scope.options_filter === 'accepted' && $scope.hasAcceptedItems(variant)) ||
+        ($scope.options_filter === 'accepted_submitted' && ($scope.hasAcceptedItems(variant) || $scope.hasSubmittedItems(variant))) ||
+        ($scope.options_filter === 'submitted' && $scope.hasSubmittedItems(variant)) ||
+        (variant.id === $scope.stateParams.variantId) ||
+        ($scope.options_filter === 'all');
     };
 
     $scope.$watchCollection(
-      function() { return Genes.data.variantsStatus.variants; },
-      function(variants){
+      function() {
+        return Genes.data.variantsStatus.variants;
+      },
+      function(variants) {
         $scope.nullCoordVars = [];
         _.forEach(variants, function(variant) {
           var counts = variant.evidence_item_statuses;
           var hasAccepted = false;
           var hasSubmitted = false;
-          if (counts.accepted_count > 0) { $scope.evidence_category_counts.accepted++; hasAccepted = true; }
-          if (counts.submitted_count > 0) { $scope.evidence_category_counts.submitted++; hasSubmitted = true; }
-          if (counts.rejected_count > 0) { $scope.evidence_category_counts.rejected++;}
-          if (counts.accepted_count === 0 && counts.submitted_count === 0 && counts.rejected_count === 0) { $scope.evidence_category_counts.orphaned++;}
+          if (counts.accepted_count > 0) {
+            $scope.evidence_category_counts.accepted++;
+            hasAccepted = true;
+          }
+          if (counts.submitted_count > 0) {
+            $scope.evidence_category_counts.submitted++;
+            hasSubmitted = true;
+          }
+          if (counts.rejected_count > 0) {
+            $scope.evidence_category_counts.rejected++;
+          }
+          if (counts.accepted_count === 0 && counts.submitted_count === 0 && counts.rejected_count === 0) {
+            $scope.evidence_category_counts.orphaned++;
+          }
           // if variant has no start coords, add to nullCoordVars list, to be displayed in display options sort menu
-          if (!variant.coordinates.start && (hasAccepted || hasSubmitted)) { $scope.nullCoordVars.push(variant.name); }
+          if (!variant.coordinates.start && (hasAccepted || hasSubmitted)) {
+            $scope.nullCoordVars.push(variant.name);
+          }
         });
         $scope.variants = variants;
       });
 
     $scope.$watch(
-      function() { return Genes.data.variantsStatus.variant_groups; },
-      function(variant_groups){
+      function() {
+        return Genes.data.variantsStatus.variant_groups;
+      },
+      function(variant_groups) {
 
-        $scope.variantGroups = _.map(variant_groups, function(vg){
+        $scope.variantGroups = _.map(variant_groups, function(vg) {
           // determine if all variants in this variant group are from a single gene
           // (if so, template will show gene names in variant tags)
-          var multiGeneGroup = !_.every(vg.variants, { gene_id: vg.variants[0].gene_id });
+          var multiGeneGroup = !_.every(vg.variants, {
+            gene_id: vg.variants[0].gene_id
+          });
           vg.variants = _.map(vg.variants, function(variant) {
             variant.multiGeneGroup = multiGeneGroup;
             return variant;
