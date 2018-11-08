@@ -132,7 +132,7 @@ gulp.task('html', ['partials', 'scripts', 'cdnize'], function () {
         //prepare the build tag for the next run of useref
         var parse = "<!-- build:"+mode+(altPath?"("+altPath+") ":' ')+target+" -->\n";
         scripts.forEach(function(line){
-          if(line.search(/(cloudflare\.com|googleapis\.com|jsdelivr\.net)/g)!=-1)
+          if(line.search(/(cloudflare\.com|googleapis\.com|jsdelivr\.net|unpkg\.com)/g)!=-1)
           {
             output+=line+"\n";
           }

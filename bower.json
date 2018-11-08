@@ -32,6 +32,11 @@
     "angular-mocks": "~1.2.0"
   },
   "overrides": {
+    "ideogram": {
+      "main": [
+        "dist/js/ideogram.min.js"
+      ]
+    },
     "bootstrap": {
       "main": [
         "less/bootstrap.less",

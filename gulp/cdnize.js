@@ -187,10 +187,14 @@ gulp.task('cdnize', ['inject'], function () {
         file: '**/font-awesome/css/*.css',
         package: 'font-awesome',
         cdn: '//cdnjs.cloudflare.com/ajax/libs/font-awesome/${ version }/css/${ filenameMin }'
+      },
+      {
+        file: '**/ideogram/**/*.js',
+        package: 'ideogram',
+        cdn: '//unpkg.com/ideogram@${ version }/dist/js/${ filenameMin }',
+        test: 'window.Ideogram'
       }
     ]
   }))
-
-
-    .pipe(gulp.dest('.tmp'))
+    .pipe(gulp.dest('.tmp'));
 });
