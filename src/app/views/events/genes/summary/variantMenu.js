@@ -27,7 +27,7 @@
     $scope.hasHiddenVariants = false;
     $scope.variants = Genes.data.variants;
 
-    $scope.menuMode = 'list';
+    $scope.menuMode = 'ideogram';
 
     // functions used in ng-show directive on variant buttons
     $scope.hasValidEvidenceItems = function(variant) { // has accepted and/or submitted items
