@@ -12,19 +12,27 @@
       scope: {
         variants: '='
       },
-      controller: circosController
+      controller: circosController,
+      link: circosLink
     };
 
     return directive;
   }
 
+  function circosLink(scope, element, attrs) {
+    console.log(element);
+    var circosEl = element[0].querySelector('#circos-plot');
+    var width = circosEl.offsetWidth;
+    angular.element(circosEl).css('height', width + 'px');
+  }
+
   // @ngInject
   function circosController($scope, $element, _, d3, Circos, CircosConfig) {
     var drawCircos = function(element, error, GRCh37, cbands, segdup) {
-      var el = element[0];
+      var circosEl = element[0].querySelector('#circos-plot');
       // get element width
-      var elWidth = el.offsetWidth;
-      var elHeight = el.offsetHeight;
+      var elWidth = circosEl.offsetWidth;
+      var elHeight = circosEl.offsetHeight;
 
       var circos = new Circos({
         container: '#circos-plot',
@@ -132,8 +140,8 @@
 
     d3.queue()
       .defer(d3.json, CircosConfig.data.GRCh37)
-      .defer(d3.json, CircosConfig.data.cytobands)
-      .defer(d3.json, CircosConfig.data.segdup)
+      .defer(d3.csv, CircosConfig.data.cytobands)
+      .defer(d3.csv, CircosConfig.data.segdup)
       .await(_.curry(drawCircos)($element));
 
     // var config = {

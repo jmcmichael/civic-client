@@ -7,8 +7,8 @@
     .constant('CircosConfig', {
       data: {
         'GRCh37': '/assets/data/GRCh37.json',
-        'cytobands': '/assets/data/cytobands.json',
-        'segdup': '/assets/data/segdup.json'
+        'cytobands': '/assets/data/cytobands.csv',
+        'segdup': '/assets/data/segdup.csv'
       }
     });
 })();
