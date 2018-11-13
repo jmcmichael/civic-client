@@ -22,14 +22,31 @@
   function circosLink(scope, element, attrs) {
     console.log(element);
     var circosEl = element[0].querySelector('#circos-plot');
-    var width = circosEl.offsetWidth;
-    angular.element(circosEl).css('height', width + 'px');
+    var ideogramEl = element[0].querySelector('#ideogram-plot');
+    var circosWidth = circosEl.offsetWidth;
+    angular.element(circosEl).css('height', circosWidth + 'px');
+    angular.element(ideogramEl).css('height', circosWidth + 'px');
   }
 
   // @ngInject
-  function circosController($scope, $element, _, d3, Circos, CircosConfig) {
+  function circosController($scope, $element, _, d3, Ideogram, IdeogramConfig, Circos, CircosConfig) {
+    var drawIdeogram = function(element, cbands, annotations) {
+      var ideogram = new Ideogram({
+        organism: 'human',
+        dataDir: 'https://unpkg.com/ideogram@0.10.0/dist/data/bands/native/',
+        container: '#ideogram-plot',
+        annotations: [{
+          name: 'BRCA1',
+          chr: '17',
+          start: 43044294,
+          stop: 43125482
+        }]
+      });
+    };
+    drawIdeogram();
     var drawCircos = function(element, error, GRCh37, cbands, segdup) {
       var circosEl = element[0].querySelector('#circos-plot');
+
       // get element width
       var elWidth = circosEl.offsetWidth;
       var elHeight = circosEl.offsetHeight;
