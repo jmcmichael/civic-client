@@ -10,6 +10,7 @@
       templateUrl: 'components/directives/circos/circos.tpl.html',
       replace: true,
       scope: {
+        gene: '=',
         variants: '='
       },
       controller: circosController,
@@ -30,11 +31,23 @@
 
   // @ngInject
   function circosController($scope, $element, _, d3, Ideogram, IdeogramConfig, Circos, CircosConfig) {
-    var drawIdeogram = function(element, cbands, annotations) {
+    var drawIdeogram = function(element, gene) {
+      var ideogramEl = element[0].querySelector('#ideogram-plot');
+      var height = ideogramEl.offsetHeight - 60;
+
       var ideogram = new Ideogram({
         organism: 'human',
         dataDir: 'https://unpkg.com/ideogram@0.10.0/dist/data/bands/native/',
         container: '#ideogram-plot',
+        assembly: 'GRCh37',
+        chromosomes: ['17'],
+        onWillShowAnnotationTooltip: function(annot) {
+          console.log('SHOWING TOOLTIP:');
+          console.log(annot);
+          return annot;
+        },
+        chrHeight: height,
+        showBandLabels: true,
         annotations: [{
           name: 'BRCA1',
           chr: '17',
@@ -43,7 +56,11 @@
         }]
       });
     };
-    drawIdeogram();
+
+    $scope.$evalAsync(function() {
+      drawIdeogram();
+    });
+
     var drawCircos = function(element, error, GRCh37, cbands, segdup) {
       var circosEl = element[0].querySelector('#circos-plot');
 
@@ -154,6 +171,7 @@
         })
         .render();
     };
+
 
     d3.queue()
       .defer(d3.json, CircosConfig.data.GRCh37)
