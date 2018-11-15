@@ -59,9 +59,9 @@
     // delay until DOM fully rendered
     $scope.$evalAsync(function($scope){ drawIdeogram($scope.gene, $scope.geneInfo, $scope.variants, $scope.element); } );
 
-    var drawCircos = function(element, error, GRCh37, cbands, segdup) {
+    var drawCircos = function(scope, element, error, GRCh37, cbands, segdup) {
       var circosEl = element[0].querySelector('#circos-plot');
-
+      var info = scope.geneInfo.genomic_pos_hg19;
       // get element width
       var elWidth = circosEl.offsetWidth;
       var elHeight = circosEl.offsetHeight;
@@ -89,7 +89,7 @@
 
       var cytobands = cbands
         .filter(function(d) {
-          return d.chrom === 'chr9';
+          return d.chrom === info.chr;
         })
         .map(function(d) {
           return {
@@ -100,10 +100,32 @@
           };
         });
 
+      function mapCoords(variant) {
+        if(variant.coordinates.chromosome) {
+          var coords = variant.coordinates;
+          return {
+            chr: 'chr' + coords.chromosome,
+            start: coords.start.toString(),
+            end: coords.stop.toString()
+          };
+        } else {
+          return null;
+        }
+      };
+      var data = _.chain(scope.variants).map(mapCoords).compact().value();
+
+      // var data = _.map(scope.variants, function(var) {
+      //   var coords = var.coordinates;
+      //   return {
+      //     block_id: coords.chr,
+      //     start: coords.start,
+      //     end: coords.stop
+      //   };
+      // });
       var start = 39000000;
       var length = 8000000;
-      var data = segdup.filter(function(d) {
-        return d.chr === 'chr9' && d.start >= start && d.end <= start + length;
+      var dataSegDup = segdup.filter(function(d) {
+        return d.chr === 'chr7' && d.start >= start && d.end <= start + length;
       }).filter(function(d) {
         return d.end - d.start > 30000;
       }).map(function(d) {
@@ -116,7 +138,7 @@
       circos
         .layout(
           [{
-            id: 'chr9',
+            id: 'chr' + info.chr,
             len: length,
             label: 'chr9',
             color: '#FFCC00'
@@ -174,7 +196,7 @@
       .defer(d3.json, CircosConfig.data.GRCh37)
       .defer(d3.csv, CircosConfig.data.cytobands)
       .defer(d3.csv, CircosConfig.data.segdup)
-      .await(_.curry(drawCircos)($element));
+      .await(_.curry(drawCircos)($scope, $element));
 
     // var config = {
     //   outerRadius: elWidth,
