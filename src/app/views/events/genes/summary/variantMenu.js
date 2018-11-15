@@ -23,6 +23,7 @@
 
     $scope.$state = $state;
     $scope.gene = Genes.data.item;
+    $scope.geneInfo = Genes.data.myGeneInfo;
     $scope.stateParams = $stateParams;
     $scope.hasHiddenVariants = false;
     $scope.variants = Genes.data.variants;

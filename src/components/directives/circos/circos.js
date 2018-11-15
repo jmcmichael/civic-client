@@ -10,7 +10,9 @@
       templateUrl: 'components/directives/circos/circos.tpl.html',
       replace: true,
       scope: {
-        variants: '='
+        gene: '=',
+        variants: '=',
+        geneInfo: '='
       },
       controller: circosController,
       link: circosLink
@@ -30,20 +32,33 @@
 
   // @ngInject
   function circosController($scope, $element, _, d3, Ideogram, IdeogramConfig, Circos, CircosConfig) {
-    var drawIdeogram = function(element, cbands, annotations) {
+    console.log('circosController instantiated.');
+    $scope.element = $element[0].querySelector('#ideogram-plot');
+
+    var drawIdeogram = function(gene, geneInfo, variants, element) {
+      var chromosomes = _.chain(variants).map('coordinates.chromosome').compact().uniq().value();
+      var info = geneInfo.genomic_pos_hg19;
       var ideogram = new Ideogram({
         organism: 'human',
         dataDir: 'https://unpkg.com/ideogram@0.10.0/dist/data/bands/native/',
         container: '#ideogram-plot',
+        // fullChromosomeLabels: true,
+        chromosomes: info.chr,
+        // ideogram does not appear to respect div height
+        chrHeight: element.offsetHeight - 60,
+        // brush: "chr17:104325484-119977655",
         annotations: [{
-          name: 'BRCA1',
-          chr: '17',
-          start: 43044294,
-          stop: 43125482
+          name: gene.name,
+          chr: info.chr,
+          start: info.start,
+          stop: info.end
         }]
       });
     };
-    drawIdeogram();
+
+    // delay until DOM fully rendered
+    $scope.$evalAsync(function($scope){ drawIdeogram($scope.gene, $scope.geneInfo, $scope.variants, $scope.element); } );
+
     var drawCircos = function(element, error, GRCh37, cbands, segdup) {
       var circosEl = element[0].querySelector('#circos-plot');
 
