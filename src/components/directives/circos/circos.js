@@ -11,7 +11,8 @@
       replace: true,
       scope: {
         gene: '=',
-        variants: '='
+        variants: '=',
+        geneInfo: '='
       },
       controller: circosController,
       link: circosLink
@@ -31,39 +32,41 @@
 
   // @ngInject
   function circosController($scope, $element, _, d3, Ideogram, IdeogramConfig, Circos, CircosConfig) {
-    var drawIdeogram = function(element, gene) {
-      var ideogramEl = element[0].querySelector('#ideogram-plot');
-      var height = ideogramEl.offsetHeight - 60;
+    console.log('circosController instantiated.');
+    $scope.element = $element[0].querySelector('#ideogram-plot');
 
+    var drawIdeogram = function(gene, geneInfo, variants, element) {
+      var chromosomes = _.chain(variants).map('coordinates.chromosome').compact().uniq().value();
+      var info = geneInfo.genomic_pos_hg19;
       var ideogram = new Ideogram({
         organism: 'human',
         dataDir: 'https://unpkg.com/ideogram@0.10.0/dist/data/bands/native/',
         container: '#ideogram-plot',
-        assembly: 'GRCh37',
-        chromosomes: ['17'],
+        // fullChromosomeLabels: true,
+        chromosomes: info.chr,
+        // ideogram does not appear to respect div height
         onWillShowAnnotationTooltip: function(annot) {
           console.log('SHOWING TOOLTIP:');
           console.log(annot);
           return annot;
         },
-        chrHeight: height,
-        showBandLabels: true,
+        chrHeight: element.offsetHeight - 60,
+        // brush: "chr17:104325484-119977655",
         annotations: [{
-          name: 'BRCA1',
-          chr: '17',
-          start: 43044294,
-          stop: 43125482
+          name: gene.name,
+          chr: info.chr,
+          start: info.start,
+          stop: info.end
         }]
       });
     };
 
-    $scope.$evalAsync(function() {
-      drawIdeogram();
-    });
+    // delay until DOM fully rendered
+    $scope.$evalAsync(function($scope){ drawIdeogram($scope.gene, $scope.geneInfo, $scope.variants, $scope.element); } );
 
-    var drawCircos = function(element, error, GRCh37, cbands, segdup) {
+    var drawCircos = function(scope, element, error, GRCh37, cbands, segdup) {
       var circosEl = element[0].querySelector('#circos-plot');
-
+      var info = scope.geneInfo.genomic_pos_hg19;
       // get element width
       var elWidth = circosEl.offsetWidth;
       var elHeight = circosEl.offsetHeight;
@@ -91,7 +94,7 @@
 
       var cytobands = cbands
         .filter(function(d) {
-          return d.chrom === 'chr9';
+          return d.chrom === info.chr;
         })
         .map(function(d) {
           return {
@@ -102,10 +105,32 @@
           };
         });
 
+      function mapCoords(variant) {
+        if(variant.coordinates.chromosome) {
+          var coords = variant.coordinates;
+          return {
+            chr: 'chr' + coords.chromosome,
+            start: coords.start.toString(),
+            end: coords.stop.toString()
+          };
+        } else {
+          return null;
+        }
+      };
+      var data = _.chain(scope.variants).map(mapCoords).compact().value();
+
+      // var data = _.map(scope.variants, function(var) {
+      //   var coords = var.coordinates;
+      //   return {
+      //     block_id: coords.chr,
+      //     start: coords.start,
+      //     end: coords.stop
+      //   };
+      // });
       var start = 39000000;
       var length = 8000000;
-      var data = segdup.filter(function(d) {
-        return d.chr === 'chr9' && d.start >= start && d.end <= start + length;
+      var dataSegDup = segdup.filter(function(d) {
+        return d.chr === 'chr7' && d.start >= start && d.end <= start + length;
       }).filter(function(d) {
         return d.end - d.start > 30000;
       }).map(function(d) {
@@ -118,7 +143,7 @@
       circos
         .layout(
           [{
-            id: 'chr9',
+            id: 'chr' + info.chr,
             len: length,
             label: 'chr9',
             color: '#FFCC00'
@@ -177,7 +202,7 @@
       .defer(d3.json, CircosConfig.data.GRCh37)
       .defer(d3.csv, CircosConfig.data.cytobands)
       .defer(d3.csv, CircosConfig.data.segdup)
-      .await(_.curry(drawCircos)($element));
+      .await(_.curry(drawCircos)($scope, $element));
 
     // var config = {
     //   outerRadius: elWidth,
