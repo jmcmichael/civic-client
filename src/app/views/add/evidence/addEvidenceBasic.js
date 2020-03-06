@@ -185,20 +185,24 @@
           minLength: 32,
           helpText: help['Variant Name'],
           formatter: 'model[options.key].name',
-          typeahead: 'item as item.name for item in options.data.typeaheadSearch($viewValue)',
+          typeahead: 'item as item.name for item in options.data.typeaheadSearch($viewValue, model, fields)',
+          typeaheadPopupTemplateUrl: 'components/forms/fieldTypes/variantTypeaheadPopup.tpl.html',
           editable: true
         },
         data: {
-          typeaheadSearch: function(val) {
+          typeaheadSearch: function(val, model, fields) {
             var request = {
               mode: 'variants',
               count: 50,
               page: 0,
               'filter[variant]': val
             };
+            // if gene specified, add its entrez name to query
+            var geneField = _.find(fields, { key: 'gene'});
+            if(geneField.formControl.$valid) { request['filter[entrez_gene]'] = geneField.value().name; }
             return Datatables.query(request)
               .then(function(response) {
-                return _.map(_.uniq(response.result, 'variant'), function(event) {
+                return _.map(response.result, function(event) {
                   return { name: event.variant };
                 });
               });
