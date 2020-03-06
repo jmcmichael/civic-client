@@ -187,7 +187,14 @@
           formatter: 'model[options.key].name',
           typeahead: 'item as item.name for item in options.data.typeaheadSearch($viewValue, model, fields)',
           typeaheadPopupTemplateUrl: 'components/forms/fieldTypes/variantTypeaheadPopup.tpl.html',
+          myCustomValue: 3,
           editable: true
+        },
+        ngModelAttrs: {
+          myCustomValue: {
+            bound: 'ng-my-custom-value',
+            attribute: 'my-custom-value'
+          }
         },
         data: {
           typeaheadSearch: function(val, model, fields) {
