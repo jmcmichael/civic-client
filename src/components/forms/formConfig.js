@@ -37,6 +37,8 @@
     // default messages
     formlyValidationMessages.addTemplateOptionValueMessage('minlength', 'minlength', '', 'is the minimum length', 'Too short.');
     formlyValidationMessages.addTemplateOptionValueMessage('maxlength', 'maxlength', '', 'is the maximum length', 'Too long.');
+    formlyValidationMessages.addTemplateOptionValueMessage('minvalue', 'minvalue', '', 'is the minimum value', 'Too low.');
+    formlyValidationMessages.addTemplateOptionValueMessage('maxvalue', 'maxvalue', '', 'is the maximum value', 'Too high.');
     formlyValidationMessages.addStringMessage('required', 'This field is required.');
     formlyValidationMessages.addStringMessage('notfound', 'Valid entity could not be found.');
   }

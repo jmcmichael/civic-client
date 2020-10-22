@@ -832,7 +832,7 @@
           valueProp: 'value',
           labelProp: 'label',
           helpText: help['Rating']
-        }
+        },
       },
       {
         key: 'keepSourceStatus',

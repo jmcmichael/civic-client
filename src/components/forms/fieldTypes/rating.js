@@ -29,7 +29,7 @@
     formlyConfigProvider.setType({
       name: 'horizontalRatingHelp',
       extends: 'rating',
-      wrapper: ['horizontalBootstrapHelp', 'bootstrapHasError']
+      wrapper: ['horizontalBootstrapHelp', 'bootstrapHasError', 'validationMessages']
     });
 
   }
